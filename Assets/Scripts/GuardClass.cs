@@ -46,7 +46,38 @@ public class GuardClass {
     x - where they mushroom is located (should be 0 in actual matrix)
     */
 
-    const 
+    private static void rotateMatrix(int N, int[, ] mat)
+    {
+        // Consider all
+        // squares one by one
+        for (int x = 0; x < N / 2; x++) {
+            // Consider elements
+            // in group of 4 in
+            // current square
+            for (int y = x; y < N - x - 1; y++) {
+                // store current cell
+                // in temp variable
+                int temp = mat[x, y];
+ 
+                // move values from
+                // right to top
+                mat[x, y] = mat[y, N - 1 - x];
+ 
+                // move values from
+                // bottom to right
+                mat[y, N - 1 - x]
+                    = mat[N - 1 - x, N - 1 - y];
+ 
+                // move values from
+                // left to bottom
+                mat[N - 1 - x, N - 1 - y]
+                    = mat[N - 1 - y, x];
+ 
+                // assign temp to left
+                mat[N - 1 - y, x] = temp;
+            }
+        }
+    }
 
     private void CreateAllMatrix(){
         // Create a clone of the original vision cone: 
@@ -57,51 +88,14 @@ public class GuardClass {
         // create mirrored clone of up matrix: that is down matrix
         // Create mirrored clone of right matrix: that is left matrix
         // Better to hard-set, checked run-times, and it's just inefficient to rotate the matrix
-        UpVisionCone = { {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                        {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                        {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                        {0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-                        {0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-        DownVisionCone = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                        {0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0},
-                        {0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0},
-                        {0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-                        {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} };
-        RightVisionCone = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1} };
-        LeftVisionCone = { {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-        
+        int N = 11;
+        UpVisionCone, LeftVisionCone = VisionCone.Clone() as int[,];
+        rotateMatrix(N, LeftVisionCone);
+        DownVisionCone = LeftVisionCone.Clone() as int[,];
+        rotateMatrix(N, DownVisionCone);
+        RightVisionCone = DownVisionCone.Clone() as int[,];
+        rotateMatrix(N, RightVisionCone);
+        // Clone the array, and this should work
     }
 
     public void EveryTick () {
