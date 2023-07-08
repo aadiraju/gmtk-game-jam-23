@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private int LightLevel;
 
     public BaseUnit OccupyingUnit = null;
+    private bool Selected = false;
     public bool Walkable => isWalkable && OccupyingUnit == null;
 
     public void Init(bool isOffset) {
@@ -20,12 +21,24 @@ public class Tile : MonoBehaviour
         isWalkable = true;
     }
 
+    public void ToggleSelected() {
+        Selected = !Selected;
+        highlight.SetActive(Selected);
+    }
+
     void OnMouseEnter() {
         Highlight();
     }
 
     void OnMouseExit() {
-        highlight.SetActive(false);
+        if(!Selected) { 
+            highlight.SetActive(false);
+        }
+    }
+
+    void OnMouseDown() {
+        ToggleSelected();
+        GameManager.Instance.SelectTile(this);
     }
 
     public void Highlight() {
