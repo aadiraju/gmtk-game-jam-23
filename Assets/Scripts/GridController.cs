@@ -18,13 +18,19 @@ public class GridController : MonoBehaviour
     }
 
    public void MakeGrid() {
+		Level level = GameManager.Instance.level;
+		if (level.mapWidth != width || level.mapHeight != height) {
+			throw new System.ArgumentException("Level map size does not match grid size.");
+		}
+		Tile.Variant[,] map = level.map;
+
         tiles = new Dictionary<Vector2, GameObject>();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 var newTile = Instantiate(TilePrefab, new Vector2(startX + x,startY + y), Quaternion.identity);
                 newTile.name = $"Tile {x} {y}";
-                newTile.GetComponent<Tile>().Init((x + y) % 2 == 1);
-
+                // newTile.GetComponent<Tile>().Init((x + y) % 2 == 1);
+                newTile.GetComponent<Tile>().Init(map[x, y]);
                 tiles[new Vector2(x,y)] = newTile;
             }
         }

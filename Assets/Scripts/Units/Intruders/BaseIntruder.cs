@@ -16,7 +16,6 @@ public class BaseIntruder : BaseUnit {
 
 	override public void TickUp() {
 		if (reachedEndOfPath) {
-			Debug.Log("Intruder reached end of path");
 			TickManager.Instance.removeIntruder(this);
 			return;
 		}
@@ -40,8 +39,17 @@ public class BaseIntruder : BaseUnit {
 		if (x < 0 || x >= GridController.Instance.height || y < 0 || y >= GridController.Instance.width) {
 			throw new System.ArgumentException("Intruder went out of bounds. Write a proper path mate.");
 		}
+		if (!GridController.Instance.GetTileAtPosition(new Vector2(x, y)).Walkable) {
+			// Check if tile is a wall or guard
+			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).isWall) {
+				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
+			} else {
+				BaseUnit guard = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
+				TickManager.Instance.removeGuard((BaseGuard)guard);
+				Destroy(guard.gameObject);
+			}
+		}
 
-		// transform.position = new Vector3(ToGridX(x), ToGridY(y), 0f);
 		SetPosition(x, y);
 
 		if (pathIndex >= path.Length) {
