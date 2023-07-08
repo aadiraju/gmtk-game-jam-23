@@ -21,11 +21,15 @@ public class Tile : MonoBehaviour
     }
 
     void OnMouseEnter() {
-        highlight.SetActive(true);
+        Highlight();
     }
 
     void OnMouseExit() {
         highlight.SetActive(false);
+    }
+
+    public void Highlight() {
+        highlight.SetActive(true);
     }
 
     public void SetUnit(BaseUnit baseUnit) {

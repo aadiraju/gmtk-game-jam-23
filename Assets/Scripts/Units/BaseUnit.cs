@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseUnit : MonoBehaviour
 {
     public Tile OccupiedTile;
+    protected Vector2 lookDirection = Vector2.down;
     // Start is called before the first frame update
     void Start()
     {
