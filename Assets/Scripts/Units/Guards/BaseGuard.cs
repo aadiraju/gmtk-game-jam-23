@@ -67,6 +67,9 @@ public abstract class BaseGuard : BaseUnit
                 if(tile.OccupyingUnit != this) {
                     tile?.Highlight();
                 }
+                if(tile.OccupyingUnit is BaseIntruder){
+                    Debug.Log("Guard has discovered intruder");
+                }
             }
         }
         return hits;

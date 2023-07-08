@@ -32,6 +32,8 @@ public class TickManager : MonoBehaviour {
 		foreach (var intruder in tickableIntruders) {
 			intruder.TickUp();
 		}
+
+		//TODO: new tickup on intruder movement
 	}
 
 	public void addGuard(BaseGuard guard) {

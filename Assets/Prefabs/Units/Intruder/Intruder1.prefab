@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6708894555194636246}
   - component: {fileID: 1776701752197048701}
   - component: {fileID: 8458113305597792889}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Intruder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
