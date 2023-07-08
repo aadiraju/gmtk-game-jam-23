@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState GameState;
     public Tile SelectedTile = null;
-    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.right, Vector2.up};
+    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
 
     void Awake()
     {

@@ -15,8 +15,4 @@ public class StaticGuard : BaseGuard
     {
         
     }
-
-	public override void TickUp() {
-		
-	}
 }

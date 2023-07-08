@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class BaseGuard : BaseUnit
 {
     [SerializeField] private int VisionDistance = 4;
-    private Vector2 offset1, offset2;
     private List<RaycastHit2D> currentHits;
     
     Animator animController;
@@ -31,7 +30,6 @@ public abstract class BaseGuard : BaseUnit
     }
 
     public override void TickUp() {
-        
     }
     public override void Rotate(Vector2 direction) {
         //TODO: Make sure it's one of the 4 cardinals
