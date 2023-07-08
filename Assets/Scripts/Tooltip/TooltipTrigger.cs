@@ -7,7 +7,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public string Content;
     public string Header;
-    public float Delay = 0.5f;
+    public float Delay = 2f;
     public void OnPointerEnter(PointerEventData eventData)
     {
         StopAllCoroutines();

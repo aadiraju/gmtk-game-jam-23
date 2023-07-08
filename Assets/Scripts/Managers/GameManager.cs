@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState GameState;
     public Tile SelectedTile = null;
+    public GaurdProfile GaurdProfile = null;
 
     void Awake()
     {
@@ -19,28 +20,65 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.MakeGrid);
     }
 
-    public void SelectTile(Tile tile) {
-        if(GameState == GameState.SelectSquare) { // A tile should be selected
-            if(tile == SelectedTile) { // We double click on same tile: unselect
+    public void SelectTile(Tile tile)
+    {
+        if (GameState == GameState.SelectSquare)
+        { // A tile should be selected
+            if (tile == SelectedTile)
+            { // We double click on same tile: unselect
                 SelectedTile = null;
                 ChangeState(GameState.EmptyState);
             } // Our selected has a guard -> we are moving it
-            else if(tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard) {
+            else if (tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard)
+            {
                 MoveGuard(tile, SelectedTile);
                 tile.ToggleSelected();
                 SelectedTile.ToggleSelected();
                 SelectedTile = null;
-            } else { // Select a new tile
+            }
+            else
+            { // Select a new tile
                 SelectedTile.ToggleSelected();
                 SelectedTile = tile;
             }
-        } else {
+        }
+        else if (GameState == GameState.SpawnGuard)
+        {
+            if (tile.OccupyingUnit == null)
+                SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
+            tile.ToggleSelected();
+            SelectedTile = null;
+        }
+        else
+        {
             ChangeState(GameState.SelectSquare);
             SelectedTile = tile;
         }
     }
 
-    public void MoveGuard(Tile destination, Tile source) {
+    public void SelectGaurdProfile(GaurdProfile profile)
+    {
+        GaurdProfile = profile;
+        if (SelectedTile != null)
+        {
+            SelectedTile.ToggleSelected();
+            SelectedTile = null;
+        }
+        ChangeState(GameState.SpawnGuard);
+    }
+
+    public void SpawnGaurd(Tile Destination, BaseGuard Guard)
+    {
+        var newGuard = Instantiate(Guard);
+        newGuard.transform.localScale = new Vector2(1, 1);
+        Destination.SetUnit(newGuard);
+        GaurdProfile.ToggleSelected();
+        GaurdProfile = null;
+        ChangeState(GameState.EmptyState);
+    }
+
+    public void MoveGuard(Tile destination, Tile source)
+    {
         var Guard = source.OccupyingUnit;
         destination.SetUnit(Guard);
         GameState = GameState.SpawnGuards;
@@ -66,6 +104,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.EmptyState:
                 break;
+            case GameState.SpawnGuard:
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
@@ -79,5 +119,6 @@ public enum GameState
     SpawnIntruder = 2,
     TickUp = 3,
     SelectSquare = 4,
-    EmptyState = 5
+    EmptyState = 5,
+    SpawnGuard = 6,
 }
