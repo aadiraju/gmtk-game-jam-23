@@ -21,15 +21,15 @@ public class GuardClass {
     private int MaxRotationCount {get; set;}
 
     private int[,] VisionCone;
-    private int[,] UpVisionCone {get;} 
-    private int[,] RightVisionCone {get;}
-    private int[,] DownVisionCone {get;}
-    private int[,] LeftVisionCone {get;}
+    private int[,] UpVisionCone {get; set;} 
+    private int[,] RightVisionCone {get; set;}
+    private int[,] DownVisionCone {get; set;}
+    private int[,] LeftVisionCone {get; set;}
     /* 
     This attribute should be a 11 by 11 matrix. The center of the matrix
     is where the guard is centered, the matrix orientation is assuming the guard is
     looking directly upwards. Example matrix for a stationary mushroom:
-    1 1 1 1 1 1 1 1 1 1 1
+    0 0 0 0 0 0 0 0 0 0 0
     0 1 1 1 1 1 1 1 1 1 0
     0 0 1 1 1 1 1 1 1 0 0
     0 0 0 1 1 1 1 1 0 0 0
@@ -59,17 +59,10 @@ public class GuardClass {
         }
     }
 
-    private void CreateAllMatrix(){
-        // Create a clone of the original vision cone: 
-        // Set that clone to be the upcone
-        // Create a clone of the original vision cone
-        // Rotate it clockwise 90 degrees
-        // Set that to be the right matrix
-        // create mirrored clone of up matrix: that is down matrix
-        // Create mirrored clone of right matrix: that is left matrix
-        // Better to hard-set, checked run-times, and it's just inefficient to rotate the matrix
+    private void CreateAllMatrix() {
         int N = 11;
-        UpVisionCone, LeftVisionCone = VisionCone.Clone() as int[,];
+        UpVisionCone = VisionCone.Clone() as int[,];
+        LeftVisionCone = VisionCone.Clone() as int[,];
         rotateMatrix(N, LeftVisionCone);
         DownVisionCone = LeftVisionCone.Clone() as int[,];
         rotateMatrix(N, DownVisionCone);
@@ -123,11 +116,11 @@ public class GuardClass {
         }
     }
 
-    public RaiseSuspicion() {
+    public void RaiseSuspicion() {
         CurrentSuspicion += 1;
     }
 
-    public LowerSuspicion() {
+    public void LowerSuspicion() {
         CurrentSuspicion -= 1;
     }
     
