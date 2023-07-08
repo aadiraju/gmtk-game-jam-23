@@ -7,6 +7,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
+    [SerializeField] private int guardCount = 10;
 
     private List<ScriptableUnit> units;
 
@@ -17,9 +18,7 @@ public class UnitManager : MonoBehaviour
     }
 
     public void SpawnGuards() {
-        int heroCount = 10;
-
-        for (int i = 0; i < heroCount; i++) {
+        for (int i = 0; i < guardCount; i++) {
             var randomPrefab = GetRandomUnit<BaseGuard>(Type.Guard);
             var newGuard = Instantiate(randomPrefab);
             var randomTile = GridController.Instance.GetGuardSpawnTile().GetComponent<Tile>();
