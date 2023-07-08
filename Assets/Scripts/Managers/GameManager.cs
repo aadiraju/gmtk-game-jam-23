@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.SpawnGuards();
                 break;
             case GameState.SpawnIntruder:
-                //UnitManager.Instance.SpawnIntruder();
+                UnitManager.Instance.SpawnIntruder();
                 break;
             case GameState.TickUp:
                 break;

@@ -7,7 +7,7 @@ using UnityEditor;
 public class GridController : MonoBehaviour
 {
     public static GridController Instance;
-    [SerializeField] private int width, height;
+    [SerializeField] public int width, height;
     [SerializeField] private float startX, startY;
     [SerializeField] private GameObject TilePrefab;
 
@@ -17,7 +17,6 @@ public class GridController : MonoBehaviour
         Instance = this;
     }
 
-    // Update is called once per frame
    public void MakeGrid() {
         tiles = new Dictionary<Vector2, GameObject>();
         for (int x = 0; x < width; x++) {
@@ -31,17 +30,18 @@ public class GridController : MonoBehaviour
         }
 
         GameManager.Instance.ChangeState(GameState.SpawnGuards);
+        GameManager.Instance.ChangeState(GameState.SpawnIntruder);
     }
 
-    public GameObject GetTileAtPosition(Vector2 pos) {
+    public Tile GetTileAtPosition(Vector2 pos) {
         if(tiles.TryGetValue(pos, out var tile)) {
-            return tile;
+            return tile.GetComponent<Tile>();
         }
 
         return null;
     }
 
-    public GameObject GetGuardSpawnTile() {
+    public GameObject GetRandomFreeTile() {
         return tiles.Where(tile => tile.Value.GetComponent<Tile>().Walkable).OrderBy(o => Random.value).First().Value;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseGuard : BaseUnit
+public abstract class BaseGuard : BaseUnit
 {
     [SerializeField] private int VisionDistance = 4;
     // Start is called before the first frame update
