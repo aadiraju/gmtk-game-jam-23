@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
+	public Level level;
 
     void Awake()
     {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+		level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
     }
 

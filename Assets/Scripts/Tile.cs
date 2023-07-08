@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
-{
+public class Tile : MonoBehaviour {
+	[SerializeField] private Sprite[] tileSprites;
     [SerializeField] private Color normalColor, offsetColor;
     [SerializeField] private SpriteRenderer renderer;
     [SerializeField] private GameObject highlight;
@@ -19,6 +19,18 @@ public class Tile : MonoBehaviour
         renderer.color = isOffset ? offsetColor :  normalColor;
         isWalkable = true;
     }
+
+	public void Init(Variant variant) {
+		if (variant == Variant.empty) {
+			variant = Variant.pathEmpty;
+		}
+		renderer.sprite = tileSprites[(int) variant];
+		if ((int) variant >= 13 && (int) variant <= 18) {
+			isWalkable = true;
+		} else {
+			isWalkable = false;
+		}
+	}
 
     void OnMouseEnter() {
         highlight.SetActive(true);
@@ -36,4 +48,29 @@ public class Tile : MonoBehaviour
         OccupyingUnit = baseUnit;
         baseUnit.OccupiedTile = this;
     }
+
+	public enum Variant {
+		wallCorner0,
+		wallCorner1,
+		wallCorner2,
+		wallCorner3,
+		wallCorner4,
+		wallCorner5,
+		wallCorner6,
+		wallCorner7,
+		wallEdge0,
+		wallEdge1,
+		wallEdge2,
+		wallEdge3,
+		wallCenter,
+		pathEmpty,
+		pathDirt,
+		pathGrass,
+		pathThickGrass,
+		pathStoney,
+		pathMushrooms,
+		largeStone,
+		stump,
+		empty
+	}
 }
