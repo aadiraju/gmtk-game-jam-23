@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Intruder1
   m_EditorClassIdentifier: 
   type: 1
-  UnitPrefab: {fileID: 0}
+  UnitPrefab: {fileID: 8458113305597792889, guid: e905a4ae052be7043abdbbd2ad4f05ea, type: 3}
