@@ -7,7 +7,7 @@ public class TickManager : MonoBehaviour {
 	public bool active = true;
 	[SerializeField] private int fixedTicksPerGameTick = 20;
 	private int ticksSinceLastGameTick = 0;
-	private List<BaseGuard> tickableGaurds = new List<BaseGuard>();
+	private List<BaseGuard> tickableGuards = new List<BaseGuard>();
 	private List<BaseIntruder> tickableIntruders = new List<BaseIntruder>();
 	private List<BaseGuard> guardsToRemove = new List<BaseGuard>();
 	private List<BaseIntruder> intrudersToRemove = new List<BaseIntruder>();
@@ -25,7 +25,7 @@ public class TickManager : MonoBehaviour {
 	}
 
 	private void TickUnits() {
-		foreach (var guard in tickableGaurds) {
+		foreach (var guard in tickableGuards) {
 			guard.TickUp();
 		}
 
@@ -35,7 +35,7 @@ public class TickManager : MonoBehaviour {
 	}
 
 	public void addGuard(BaseGuard guard) {
-		tickableGaurds.Add(guard);
+		tickableGuards.Add(guard);
 	}
 
 	public void addIntruder(BaseIntruder intruder) {
@@ -52,7 +52,7 @@ public class TickManager : MonoBehaviour {
 
 	private void executeRemovals() {
 		foreach (var guard in guardsToRemove) {
-			tickableGaurds.Remove(guard);
+			tickableGuards.Remove(guard);
 		}
 
 		foreach (var intruder in intrudersToRemove) {
