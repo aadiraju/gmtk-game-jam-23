@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class BaseGuard : BaseUnit
 {
     [SerializeField] private int VisionDistance = 4;
-    private List<RaycastHit2D> currentHits;
+    protected List<RaycastHit2D> currentHits;
     
     Animator animController;
     // Start is called before the first frame update
@@ -38,28 +39,9 @@ public abstract class BaseGuard : BaseUnit
         animController.SetFloat("Move Y", direction.y);
     }
 
-    void DrawVisionCone() {
-        Vector2 DirectionA;
-        Vector2 DirectionB;
-        if(this.lookDirection == Vector2.up || this.lookDirection == Vector2.down) {
-            DirectionA = Vector2.left;
-            DirectionB = Vector2.right;
-        } else {
-            DirectionA = Vector2.up;
-            DirectionB = Vector2.down;
-        }
+    protected abstract void DrawVisionCone();
 
-        float[] offsets = {0.125f, 0.25f, 0.5f};
-        
-        currentHits.AddRange(RaycastAndHighlight(Vector2.zero));
-        foreach (var offset in offsets)
-        {
-               currentHits.AddRange(RaycastAndHighlight(DirectionA * offset));
-               currentHits.AddRange(RaycastAndHighlight(DirectionB * offset));
-        }
-    }
-
-    void EraseVisionCone() {
+    protected void EraseVisionCone() {
         foreach (var hit in currentHits) {
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
@@ -71,8 +53,14 @@ public abstract class BaseGuard : BaseUnit
         currentHits = new List<RaycastHit2D>();
     }
 
-    RaycastHit2D[] RaycastAndHighlight(Vector2 offset) {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+    protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false) {
+       RaycastHit2D[] hits = {};
+       if(Circle) {
+        hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+       } else {
+        hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+        hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
+       }
          foreach (var hit in hits) {
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
