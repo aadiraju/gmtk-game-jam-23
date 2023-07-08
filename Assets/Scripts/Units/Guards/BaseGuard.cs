@@ -46,7 +46,7 @@ public abstract class BaseGuard : BaseUnit
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
                 if(tile.OccupyingUnit != this) {
-                    tile?.Unhighlight();
+                    tile?.VisionUnhighlight();
                 }
             }
         }
@@ -65,7 +65,7 @@ public abstract class BaseGuard : BaseUnit
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
                 if(tile.OccupyingUnit != this) {
-                    tile?.Highlight();
+                    tile?.VisionHighlight();
                 }
             }
         }
