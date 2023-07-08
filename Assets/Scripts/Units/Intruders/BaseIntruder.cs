@@ -71,6 +71,9 @@ public class BaseIntruder : BaseUnit {
 		};
 	}
 
+	 public override void Rotate(Vector2 direction) {
+    }
+
 	private enum Direction {
 		Up,
 		Down,

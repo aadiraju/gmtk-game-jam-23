@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
 
 public class Tile : MonoBehaviour
 {
@@ -19,6 +22,18 @@ public class Tile : MonoBehaviour
     public void Init(bool isOffset) {
         renderer.color = isOffset ? offsetColor :  normalColor;
         isWalkable = true;
+    }
+
+    void Update() {
+        if(Selected && OccupyingUnit != null) {
+            float x = Input.GetAxis("Horizontal");
+            float y = Input.GetAxis("Vertical");
+            Vector2 inputDirection = new(x,y);
+            inputDirection = inputDirection.normalized;
+            if(GameManager.Instance.cardinals.Contains(inputDirection)) {
+                OccupyingUnit.Rotate(inputDirection);
+            }
+        }
     }
 
     public void ToggleSelected() {
@@ -43,6 +58,10 @@ public class Tile : MonoBehaviour
 
     public void Highlight() {
         highlight.SetActive(true);
+    }
+
+    public void Unhighlight() {
+         highlight.SetActive(false);
     }
 
     public void SetUnit(BaseUnit baseUnit) {

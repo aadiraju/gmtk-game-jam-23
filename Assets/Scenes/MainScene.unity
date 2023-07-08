@@ -970,7 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63324928581b0b4c827c1e92e9cb720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guardCount: 20
+  guardCount: 5
 --- !u!4 &241739019
 Transform:
   m_ObjectHideFlags: 0
@@ -1463,6 +1463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameState: 0
+  SelectedTile: {fileID: 0}
 --- !u!4 &1223798971
 Transform:
   m_ObjectHideFlags: 0

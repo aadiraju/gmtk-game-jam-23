@@ -17,6 +17,8 @@ public abstract class BaseUnit : MonoBehaviour, Tickable
     {
         
     }
+
+    public abstract void Rotate(Vector2 direction);
 	
 	public abstract void TickUp();
 }

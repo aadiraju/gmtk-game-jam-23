@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public GameState GameState;
     public Tile SelectedTile = null;
+    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.right, Vector2.up};
 
     void Awake()
     {
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     public void MoveGuard(Tile destination, Tile source) {
         var Guard = source.OccupyingUnit;
         destination.SetUnit(Guard);
-        GameState = GameState.SpawnGuards;
+        GameState = GameState.EmptyState;
     }
 
     public void ChangeState(GameState newState)
