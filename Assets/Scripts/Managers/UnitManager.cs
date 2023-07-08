@@ -29,7 +29,7 @@ public class UnitManager : MonoBehaviour
     }
 
 	public void SpawnIntruder() {
-		LevelLoader.Level level = LevelLoader.GetLevel("Assets/Levels/Test/Level.json");
+		Level level = GameManager.Instance.level;
 		var randomPrefab = GetRandomUnit<BaseIntruder>(Type.Intruder);
 		var newIntruder = Instantiate(randomPrefab);
 		var randomTile = GridController.Instance.GetTileAtPosition(new Vector2(level.intruderPaths[0].startX, level.intruderPaths[0].startY));

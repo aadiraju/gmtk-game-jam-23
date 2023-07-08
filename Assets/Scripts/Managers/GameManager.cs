@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
+	public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
     public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+		level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
     }
 
