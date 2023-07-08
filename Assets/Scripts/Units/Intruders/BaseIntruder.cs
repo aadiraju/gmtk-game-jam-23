@@ -41,7 +41,7 @@ public class BaseIntruder : BaseUnit {
 		}
 		if (!GridController.Instance.GetTileAtPosition(new Vector2(x, y)).Walkable) {
 			// Check if tile is a wall or guard
-			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit == null) {
+			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).isWall) {
 				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
 			} else {
 				BaseUnit guard = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
@@ -78,6 +78,9 @@ public class BaseIntruder : BaseUnit {
 			_ => throw new System.ArgumentException("Invalid direction in path: '" + path[n] + "'")
 		};
 	}
+
+	 public override void Rotate(Vector2 direction) {
+    }
 
 	private enum Direction {
 		Up,

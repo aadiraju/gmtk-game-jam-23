@@ -5,10 +5,9 @@ using UnityEngine;
 public abstract class BaseUnit : MonoBehaviour, Tickable
 {
     public Tile OccupiedTile;
-
-
-	// Start is called before the first frame update
-	void Start()
+    protected Vector2 lookDirection = Vector2.down;
+    // Start is called before the first frame update
+    void Start()
     {
         
     }
@@ -18,6 +17,8 @@ public abstract class BaseUnit : MonoBehaviour, Tickable
     {
         
     }
+
+    public abstract void Rotate(Vector2 direction);
 	
 	public abstract void TickUp();
 }
