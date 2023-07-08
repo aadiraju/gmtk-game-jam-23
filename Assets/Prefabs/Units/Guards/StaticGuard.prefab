@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
+  VisionDistance: 5
 --- !u!95 &4878637972714848017
 Animator:
   serializedVersion: 5
