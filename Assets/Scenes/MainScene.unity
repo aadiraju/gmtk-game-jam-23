@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 8579576}
   - component: {fileID: 8579575}
   - component: {fileID: 8579574}
+  - component: {fileID: 8579577}
   m_Layer: 0
   m_Name: Collidable
   m_TagString: Untagged
@@ -494,12 +495,12 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 24
-    m_Data: {fileID: 11400000, guid: dc843057511f4c54084096e6a21867b8, type: 2}
+    m_Data: {fileID: 11400000, guid: a976e4c473436904f9f5abcf8c03845c, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 24
-    m_Data: {fileID: 21300000, guid: a10d12366c8964c49b622faba31769d7, type: 3}
+    m_Data: {fileID: 21300000, guid: 4de95ebc6b0290b4d97495844fc74c24, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 24
     m_Data:
@@ -548,6 +549,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &8579577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8579572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dae4bdd7a1aec34ca485779c3a922f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &94372063
 GameObject:
   m_ObjectHideFlags: 0
