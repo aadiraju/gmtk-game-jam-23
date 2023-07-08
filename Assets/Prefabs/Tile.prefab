@@ -103,6 +103,9 @@ MonoBehaviour:
   offsetColor: {r: 0.4, g: 0.6901961, b: 0.3372549, a: 1}
   renderer: {fileID: 4390610136052070347}
   highlight: {fileID: 2090734892571824331}
+  isWalkable: 1
+  LightLevel: 0
+  OccupyingUnit: {fileID: 0}
 --- !u!61 &1010236020674804464
 BoxCollider2D:
   m_ObjectHideFlags: 0

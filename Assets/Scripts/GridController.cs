@@ -1,22 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEditor;
 
 public class GridController : MonoBehaviour
 {
+    public static GridController Instance;
     [SerializeField] private int width, height;
     [SerializeField] private float startX, startY;
     [SerializeField] private GameObject TilePrefab;
 
     private Dictionary<Vector2, GameObject> tiles;
     // Start is called before the first frame update
-    void Start()
-    {
-        MakeGrid();
+    void Awake() {
+        Instance = this;
     }
 
     // Update is called once per frame
-    void MakeGrid() {
+   public void MakeGrid() {
         tiles = new Dictionary<Vector2, GameObject>();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -27,6 +29,8 @@ public class GridController : MonoBehaviour
                 tiles[new Vector2(x,y)] = newTile;
             }
         }
+
+        GameManager.Instance.ChangeState(GameState.SpawnGuards);
     }
 
     public GameObject GetTileAtPosition(Vector2 pos) {
@@ -35,5 +39,9 @@ public class GridController : MonoBehaviour
         }
 
         return null;
+    }
+
+    public GameObject GetGuardSpawnTile() {
+        return tiles.Where(tile => tile.Value.GetComponent<Tile>().Walkable).OrderBy(o => Random.value).First().Value;
     }
 }
