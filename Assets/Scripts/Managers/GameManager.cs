@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     public void DeleteGuard()
     {
-        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard)
+        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard && !(SelectedTile?.OccupyingUnit is GoldShroomController))
         {
             TickManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
             UnitManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
