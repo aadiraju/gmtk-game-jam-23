@@ -140,21 +140,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DeleteGuard()
-    {
-        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard && !(SelectedTile?.OccupyingUnit is GoldShroomController))
-        {
-            TickManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
-            UnitManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
-            ((BaseGuard)SelectedTile.OccupyingUnit).EraseVisionCone();
-            Destroy(SelectedTile.OccupyingUnit.gameObject);
-            SelectedTile.OccupyingUnit = null;
-            SelectedTile.ToggleSelected();
-            SelectedTile = null;
-            ChangeState(GameState.EmptyState);
-        }
-    }
-
     public void StartGame()
     {
         simulationNumber = 0;
@@ -175,6 +160,8 @@ public class GameManager : MonoBehaviour
         button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
         button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
 
+        sh.StopPlanningMusic();
+        sh.PlaySimulationMusic();
     }
 
     public void GameOver()
@@ -194,12 +181,70 @@ public class GameManager : MonoBehaviour
 
         // Set state back to spawn guards
         GameState = GameState.EmptyState;
+
+        // Stop simulation music
+        sh.StopSimulationMusic();
+        sh.PlayPlanningMusic();
+    }
+
+    public void DeleteGuard()
+    {
+        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard && !(SelectedTile?.OccupyingUnit is GoldShroomController))
+        {
+            TickManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            UnitManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            ((BaseGuard)SelectedTile.OccupyingUnit).EraseVisionCone();
+            Destroy(SelectedTile.OccupyingUnit.gameObject);
+            SelectedTile.OccupyingUnit = null;
+            SelectedTile.ToggleSelected();
+            SelectedTile = null;
+            ChangeState(GameState.EmptyState);
+        }
+    }
+
+
+    public void IntruderReachedGoal()
+    {
+        Debug.Log("Intruder reached goal! Game over!");
+        sh.PlayLoss();
+        GameOver();
     }
 
     public void GuardsAlerted()
     {
-        Debug.Log("Guards alerted! Game over!");
+        Debug.Log("Guards alerted!");
+        StartCoroutine(TriggerIntruderDeath());
+    }
+
+    public void NextSimulation()
+    {
+        simulationNumber++;
+        if (simulationNumber >= level.intruderPaths.Count)
+        {
+            Victory();
+        }
+        else
+        {
+            TickManager.Instance.active = false;
+            UnitManager.Instance.ResetUnits();
+            ChangeState(GameState.SpawnIntruder);
+            TickManager.Instance.active = true;
+        }
+    }
+
+    private void Victory()
+    {
+        Debug.Log("Victory!");
+        sh.PlayVictory();
         GameOver();
+    }
+
+    IEnumerator TriggerIntruderDeath()
+    {
+        TickManager.Instance.intruder.TriggerCaughtAnim();
+        TickManager.Instance.active = false;
+        yield return new WaitForSeconds(2f); //wait for 2s to finish animation, then call game over
+        NextSimulation();
     }
 }
 
@@ -213,4 +258,11 @@ public enum GameState
     EmptyState = 5,
     SpawnGuard = 6,
     Simulation = 7
+}
+
+public enum EndState
+{
+    Victory = 0,
+    NextSimulation = 1,
+    Loss = 2
 }

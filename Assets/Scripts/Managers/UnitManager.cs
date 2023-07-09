@@ -43,7 +43,7 @@ public class UnitManager : MonoBehaviour
         }
 
         TickManager.Instance.removeIntruder();
-        Destroy(intruder.gameObject, 1f);
+        Destroy(intruder.gameObject);
         intruder = null;
     }
 
@@ -68,10 +68,12 @@ public class UnitManager : MonoBehaviour
         guards.Add(guard);
     }
 
+
     public void removeGuard(BaseGuard guard)
     {
         guards.Remove(guard);
     }
+
 
     private T GetRandomUnit<T>(Type type) where T : BaseUnit
     {
