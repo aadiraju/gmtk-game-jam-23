@@ -12,6 +12,8 @@ public class LevelLoader {
 	private static Color pathMushroom = new Color(1.000f, 0.949f, 0.000f, 1.000f);  // Paint "yellow"
 	private static Color largeStone = new Color(0.498f, 0.498f, 0.498f, 1.000f);  // Paint "grey"
 	private static Color stump = new Color(0.533f, 0.000f, 0.082f, 1.000f);  // Paint "dark red"
+	private static Color goldShroom = new Color(0.996f, 0.843f, 0.290f, 1.000f);  // Paint "gold"
+	private static Color goldShroom2 = new Color(1.00f, 0.788f, 0.055f, 1.00f); // Paint "gold2"
 	public static Level GetLevel(string levelName) {
 		// Read the JSON file
         string jsonContent = File.ReadAllText("Assets/Resources/Levels/" + levelName + "/level.json");
@@ -91,6 +93,9 @@ public class LevelLoader {
 					level.map[x, y] = Tile.Variant.largeStone;
 				} else if (ColorEqual(pixelColor, stump)) {
 					level.map[x, y] = Tile.Variant.stump;
+				} else if (ColorEqual(pixelColor, goldShroom) || ColorEqual(pixelColor, goldShroom2)) {
+					level.map[x, y] = Tile.Variant.empty;
+					GameManager.Instance.GoldenShroomLocation = new Vector2(x,y);
 				} else {
 					level.map[x, y] = Tile.Variant.empty;
 					Debug.Log("Unknown color: " + pixelColor);
