@@ -100,7 +100,6 @@ public abstract class BaseGuard : BaseUnit, Resetable
 						tile?.VisionHighlight();
 				}
 				if (tile.OccupyingUnit is BaseIntruder) {
-                    Debug.Log(this);
 					sawIntruder = true;
 				}
 			}

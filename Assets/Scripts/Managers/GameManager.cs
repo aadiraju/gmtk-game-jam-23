@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 	public Sprite[] buttonSprites;
     public Vector2 GoldenShroomLocation = new(0,0);
     public SoundHandler sh;
+	public int simulationNumber = 0;
 
     void Awake()
     {
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour
     }
 
 	public void StartGame() {
+		simulationNumber = 0;
 		foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>()) {
 			GameObject.gameObject.SetActive(false);
 			Destroy(GameObject.gameObject);
@@ -153,9 +155,12 @@ public class GameManager : MonoBehaviour
 		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
 		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
 		
+		sh.StopPlanningMusic();
+		sh.PlaySimulationMusic();
 	}
 
 	public void GameOver() {
+        TickManager.Instance.active = false;
 		// Change button sprite to "play"
 		GameObject button = GameObject.Find("GoButton");
 		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
@@ -170,18 +175,46 @@ public class GameManager : MonoBehaviour
 
 		// Set state back to spawn guards
 		GameState = GameState.EmptyState;
+
+		// Stop simulation music
+		sh.StopSimulationMusic();
+		sh.PlayPlanningMusic();
+	}
+
+	public void IntruderReachedGoal() {
+		Debug.Log("Intruder reached goal! Game over!");
+        sh.PlayLoss();
+		GameOver();
 	}
 
 	public void GuardsAlerted() {
-		Debug.Log("Guards alerted! Game over!");
-        TickManager.Instance.active = false;
+		Debug.Log("Guards alerted!");
         StartCoroutine(TriggerIntruderDeath());
+	}
+
+	public void NextSimulation() {
+		simulationNumber++;
+		if (simulationNumber >= level.intruderPaths.Count) {
+			Victory();
+		} else {
+			TickManager.Instance.active = false;
+			UnitManager.Instance.ResetUnits();
+			ChangeState(GameState.SpawnIntruder);
+			TickManager.Instance.active = true;
+		}
+	}
+
+	private void Victory() {
+		Debug.Log("Victory!");
+        sh.PlayVictory();
+        GameOver();
 	}
 
     IEnumerator TriggerIntruderDeath() {
 		TickManager.Instance.intruder.TriggerCaughtAnim();
+        TickManager.Instance.active = false;
 		yield return new WaitForSeconds(2f); //wait for 2s to finish animation, then call game over
-        GameOver();
+        NextSimulation();
 	}
 }
 
@@ -195,4 +228,10 @@ public enum GameState
     EmptyState = 5,
     SpawnGuard = 6,
 	Simulation = 7
+}
+
+public enum EndState {
+    Victory = 0,
+    NextSimulation = 1,
+    Loss = 2
 }

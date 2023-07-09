@@ -45,7 +45,7 @@ public class BaseIntruder : BaseUnit {
 				break;
 		}
 
-		if (x < 0 || x >= GridController.Instance.height || y < 0 || y >= GridController.Instance.width) {
+		if (x < 0 || x >= GridController.Instance.width || y < 0 || y >= GridController.Instance.height) {
 			throw new System.ArgumentException("Intruder went out of bounds. Write a proper path mate.");
 		}
 		bool fixOccupiedTile = false;
@@ -57,6 +57,10 @@ public class BaseIntruder : BaseUnit {
 				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
 			} else {
 				BaseUnit unit = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
+				if (unit is GoldShroomController) {
+					GameManager.Instance.IntruderReachedGoal();
+					return;
+				}
 				if (unit is BaseGuard) {
 					BaseGuard guard = (BaseGuard)unit;
 					guard.EraseVisionCone();
@@ -76,6 +80,7 @@ public class BaseIntruder : BaseUnit {
 
 		if (pathIndex >= path.Length) {
 			reachedEndOfPath = true;
+			GameManager.Instance.IntruderReachedGoal();
 		}
 	}
 
