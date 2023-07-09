@@ -112,4 +112,6 @@ public abstract class BaseGuard : BaseUnit, Resetable
     {
         isActive = !isActive;
     }
+
+
 }

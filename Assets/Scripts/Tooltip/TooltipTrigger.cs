@@ -7,7 +7,13 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public string Content;
     public string Header;
+    public BaseUnit UnitPrefab;
     public float Delay = 2f;
+
+    void Awake() {
+        Content = UnitPrefab.Description();
+        Header = UnitPrefab.Title();
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         StopAllCoroutines();
