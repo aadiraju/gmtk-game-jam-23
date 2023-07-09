@@ -8,7 +8,7 @@ public class TickManager : MonoBehaviour {
 	[SerializeField] private int fixedTicksPerGameTick;
 	private int ticksSinceLastGameTick = 0;
 	private List<BaseGuard> tickableGuards = new List<BaseGuard>();
-	private BaseIntruder intruder;
+	public BaseIntruder intruder;
 	private List<BaseGuard> guardsToRemove = new List<BaseGuard>();
 	private List<BaseIntruder> intrudersToRemove = new List<BaseIntruder>();
 
