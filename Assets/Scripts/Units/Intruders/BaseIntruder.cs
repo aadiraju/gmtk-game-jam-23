@@ -38,6 +38,9 @@ public class BaseIntruder : BaseUnit {
 		if (x < 0 || x >= GridController.Instance.height || y < 0 || y >= GridController.Instance.width) {
 			throw new System.ArgumentException("Intruder went out of bounds. Write a proper path mate.");
 		}
+		bool fixOccupiedTile = false;
+		Tile tileFix = null;
+		BaseGuard guardFix = null;
 		if (!GridController.Instance.GetTileAtPosition(new Vector2(x, y)).Walkable) {
 			// Check if tile is a wall or guard
 			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).isWall) {
@@ -48,11 +51,18 @@ public class BaseIntruder : BaseUnit {
 					BaseGuard guard = (BaseGuard)unit;
 					guard.EraseVisionCone();
 					guard.gameObject.SetActive(false);
+					fixOccupiedTile = true;
+					guardFix = guard;
+					tileFix = guard.OccupiedTile;
 				}
 			}
 		}
 
 		SetPosition(x, y);
+
+		if (fixOccupiedTile) {
+			guardFix.OccupiedTile = tileFix;
+		}
 
 		if (pathIndex >= path.Length) {
 			reachedEndOfPath = true;

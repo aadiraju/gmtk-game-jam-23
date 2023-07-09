@@ -25,7 +25,7 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseGuard>(Type.Guard);
             var newGuard = Instantiate(randomPrefab);
             var randomTile = GridController.Instance.GetRandomFreeTile().GetComponent<Tile>();
-
+            newGuard.ToggleActive();
             randomTile.SetUnit(newGuard);
 			TickManager.Instance.addGuard(newGuard);
 			guards.Add(newGuard);
@@ -53,6 +53,10 @@ public class UnitManager : MonoBehaviour
 		randomTile.SetUnit(newIntruder);
 		TickManager.Instance.addIntruder(newIntruder);
 		intruder = newIntruder;
+	}
+
+	public void addGuard(BaseGuard guard) {
+		guards.Add(guard);
 	}
 
     private T GetRandomUnit<T> (Type type) where T : BaseUnit {

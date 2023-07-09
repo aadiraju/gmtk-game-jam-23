@@ -35,7 +35,7 @@ public class GaurdProfile : MonoBehaviour
     void OnMouseDown()
     {
         ToggleSelected();
-        GameManager.Instance.SelectGaurdProfile(this);
+        GameManager.Instance.SelectGaurdProfile(IsSelected ? this : null);
     }
 
 }
