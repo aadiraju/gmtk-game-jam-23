@@ -54,6 +54,7 @@ public class TickManager : MonoBehaviour {
 	}
 
 	public void removeIntruder() {
+		intruder.OccupiedTile.OccupyingUnit = null;
 		intruder = null;
 	}
 

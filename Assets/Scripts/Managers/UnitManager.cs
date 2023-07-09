@@ -38,7 +38,7 @@ public class UnitManager : MonoBehaviour
 		}
 
 		TickManager.Instance.removeIntruder();
-		Destroy(intruder.gameObject);
+		Destroy(intruder.gameObject, 1f);
 		intruder = null;
 	}
 
