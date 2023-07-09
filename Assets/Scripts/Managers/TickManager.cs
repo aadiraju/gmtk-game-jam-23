@@ -5,10 +5,10 @@ using UnityEngine;
 public class TickManager : MonoBehaviour {
 	public static TickManager Instance;
 	public bool active = false;
-	[SerializeField] private int fixedTicksPerGameTick = 20;
+	[SerializeField] private int fixedTicksPerGameTick;
 	private int ticksSinceLastGameTick = 0;
 	private List<BaseGuard> tickableGuards = new List<BaseGuard>();
-	private BaseIntruder intruder;
+	public BaseIntruder intruder;
 	private List<BaseGuard> guardsToRemove = new List<BaseGuard>();
 	private List<BaseIntruder> intrudersToRemove = new List<BaseIntruder>();
 
@@ -51,6 +51,10 @@ public class TickManager : MonoBehaviour {
 
 	public void removeGuard(BaseGuard guard) {
 		guardsToRemove.Add(guard);
+	}
+
+	public void DeleteGuard(BaseGuard guard) {
+		tickableGuards.Remove(guard);
 	}
 
 	public void removeIntruder() {

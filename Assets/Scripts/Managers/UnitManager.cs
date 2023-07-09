@@ -38,7 +38,7 @@ public class UnitManager : MonoBehaviour
 		}
 
 		TickManager.Instance.removeIntruder();
-		Destroy(intruder.gameObject, 1f);
+		Destroy(intruder.gameObject);
 		intruder = null;
 	}
 
@@ -46,8 +46,10 @@ public class UnitManager : MonoBehaviour
 		Level level = GameManager.Instance.level;
 		var randomPrefab = GetRandomUnit<BaseIntruder>(Type.Intruder);
 		var newIntruder = Instantiate(randomPrefab);
-		var randomTile = GridController.Instance.GetTileAtPosition(new Vector2(level.intruderPaths[0].startX, level.intruderPaths[0].startY));
-		newIntruder.path = level.intruderPaths[0].path;
+		var randomTile = GridController.Instance.GetTileAtPosition(new Vector2(level.intruderPaths[GameManager.Instance.simulationNumber].startX, level.intruderPaths[GameManager.Instance.simulationNumber].startY));
+		newIntruder.x = level.intruderPaths[GameManager.Instance.simulationNumber].startX;
+		newIntruder.y = level.intruderPaths[GameManager.Instance.simulationNumber].startY;
+		newIntruder.path = level.intruderPaths[GameManager.Instance.simulationNumber].path;
 		newIntruder.gameObject.SetActive(true);
 
 		randomTile.SetUnit(newIntruder);
@@ -57,6 +59,10 @@ public class UnitManager : MonoBehaviour
 
 	public void addGuard(BaseGuard guard) {
 		guards.Add(guard);
+	}
+
+	public void removeGuard(BaseGuard guard) {
+		guards.Remove(guard);
 	}
 
     private T GetRandomUnit<T> (Type type) where T : BaseUnit {

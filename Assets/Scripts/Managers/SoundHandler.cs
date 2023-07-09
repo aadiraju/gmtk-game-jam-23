@@ -9,14 +9,17 @@ public class SoundHandler : MonoBehaviour
     private AudioSource Detect;
     private AudioSource PlanningMusic;
     private AudioSource SimulationMusic;
+	private AudioSource Victory;
+	private AudioSource Loss;
 
     void Start() {
         MySounds = GetComponents<AudioSource>();
-        Debug.Log(MySounds.Length);
         PlanningMusic = MySounds[0];
         SimulationMusic = MySounds[1];
         Click = MySounds[2];
         Detect = MySounds[3];
+		Victory = MySounds[4];
+		Loss = MySounds[5];
     }
 
     public void PlayPlanningMusic() {
@@ -43,4 +46,11 @@ public class SoundHandler : MonoBehaviour
         Detect.Play();
     }
 
+	public void PlayVictory() {
+		Victory.Play();
+	}
+
+	public void PlayLoss() {
+		Loss.Play();
+	}
 }

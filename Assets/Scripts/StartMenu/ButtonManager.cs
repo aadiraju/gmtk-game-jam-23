@@ -20,6 +20,7 @@ public class ButtonManager : MonoBehaviour {
 			DestroyImmediate(aL[i]);
 		}
 		SceneManager.LoadScene(GameScene, LoadSceneMode.Additive);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
 	public void OnCreditsButtonPress() {

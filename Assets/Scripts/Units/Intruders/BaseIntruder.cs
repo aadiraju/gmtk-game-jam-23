@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class BaseIntruder : BaseUnit {
@@ -9,9 +10,14 @@ public class BaseIntruder : BaseUnit {
 	public string path;
 	private int pathIndex = 0;
 	private bool reachedEndOfPath = false;
+	Animator animController;
 	
 	
     void Start() {}
+
+	void Awake() {
+		animController = GetComponent<Animator>();
+	}
 
 	override public void TickUp() {
 		if (reachedEndOfPath) {
@@ -23,19 +29,23 @@ public class BaseIntruder : BaseUnit {
 		switch (direction) {
 			case Direction.Up:
 				y++;
+				Rotate(Vector2.up);
 				break;
 			case Direction.Down:
 				y--;
+				Rotate(Vector2.down);
 				break;
 			case Direction.Left:
 				x--;
+				Rotate(Vector2.left);
 				break;
 			case Direction.Right:
 				x++;
+				Rotate(Vector2.right);
 				break;
 		}
 
-		if (x < 0 || x >= GridController.Instance.height || y < 0 || y >= GridController.Instance.width) {
+		if (x < 0 || x >= GridController.Instance.width || y < 0 || y >= GridController.Instance.height) {
 			throw new System.ArgumentException("Intruder went out of bounds. Write a proper path mate.");
 		}
 		bool fixOccupiedTile = false;
@@ -47,6 +57,10 @@ public class BaseIntruder : BaseUnit {
 				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
 			} else {
 				BaseUnit unit = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
+				if (unit is GoldShroomController) {
+					GameManager.Instance.IntruderReachedGoal();
+					return;
+				}
 				if (unit is BaseGuard) {
 					BaseGuard guard = (BaseGuard)unit;
 					guard.EraseVisionCone();
@@ -66,6 +80,7 @@ public class BaseIntruder : BaseUnit {
 
 		if (pathIndex >= path.Length) {
 			reachedEndOfPath = true;
+			GameManager.Instance.IntruderReachedGoal();
 		}
 	}
 
@@ -92,7 +107,14 @@ public class BaseIntruder : BaseUnit {
 	}
 
 	 public override void Rotate(Vector2 direction) {
+		lookDirection = direction;
+        animController.SetFloat("Move X", direction.x);
+        animController.SetFloat("Move Y", direction.y);
     }
+
+	public void TriggerCaughtAnim() {
+		animController.SetTrigger("Caught");
+	}
 
 	private enum Direction {
 		Up,
