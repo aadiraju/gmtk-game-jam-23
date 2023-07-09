@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
                 SelectedTile = null;
                 ChangeState(GameState.EmptyState);
             } // Our selected has a guard -> we are moving it
-            else if (tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard)
+            else if (tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard && !tile.isWall)
             {
                 MoveGuard(tile, SelectedTile);
                 tile.ToggleSelected();
