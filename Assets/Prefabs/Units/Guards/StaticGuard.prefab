@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   VisionDistance: 5
+  currentSuspicion: 0
+  maxSuspicion: 3
 --- !u!95 &4878637972714848017
 Animator:
   serializedVersion: 5

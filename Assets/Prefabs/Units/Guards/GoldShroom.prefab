@@ -119,3 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e899c47988579494e98134ea0bc4bb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OccupiedTile: {fileID: 0}
+  VisionDistance: 4
+  currentSuspicion: 0
+  maxSuspicion: 3
+  sawIntruder: 0

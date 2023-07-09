@@ -1,9 +1,9 @@
 {
-	"intruderPaths": [
-		{
-			"startX": 0,
-			"startY": 0,
-			"path": "RRRUUUU"
-		}
-	]
+  "intruderPaths": [
+    {
+      "startX": 0,
+      "startY": 0,
+      "path": "RRURUUUUUU"
+    }
+  ]
 }

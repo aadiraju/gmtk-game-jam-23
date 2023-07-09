@@ -35,9 +35,6 @@ public class GridController : MonoBehaviour
             }
         }
 
-        GameManager.Instance.ChangeState(GameState.SpawnGuards);
-        GameManager.Instance.ChangeState(GameState.SpawnIntruder);
-
         //Spawn Golden Shroom
         BaseUnit newGold = Instantiate(GoldShroomPrefab);
         Tile goldShroomTile = GetTileAtPosition(GameManager.Instance.GoldenShroomLocation);

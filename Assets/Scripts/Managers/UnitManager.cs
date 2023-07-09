@@ -10,11 +10,14 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private int guardCount = 10;
 
     private List<ScriptableUnit> units;
+	private List<BaseGuard> guards;
+	private BaseIntruder intruder;
 
     void Awake() {
         Instance = this;
 
         units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
+		guards = new List<BaseGuard>();
     }
 
     public void SpawnGuards() {
@@ -25,8 +28,19 @@ public class UnitManager : MonoBehaviour
             newGuard.ToggleActive();
             randomTile.SetUnit(newGuard);
 			TickManager.Instance.addGuard(newGuard);
+			guards.Add(newGuard);
         }
     }
+
+	public void ResetUnits() {
+		foreach (var guard in guards) {
+			guard.Reset();
+		}
+
+		TickManager.Instance.removeIntruder();
+		Destroy(intruder.gameObject, 1f);
+		intruder = null;
+	}
 
 	public void SpawnIntruder() {
 		Level level = GameManager.Instance.level;
@@ -34,9 +48,15 @@ public class UnitManager : MonoBehaviour
 		var newIntruder = Instantiate(randomPrefab);
 		var randomTile = GridController.Instance.GetTileAtPosition(new Vector2(level.intruderPaths[0].startX, level.intruderPaths[0].startY));
 		newIntruder.path = level.intruderPaths[0].path;
+		newIntruder.gameObject.SetActive(true);
 
 		randomTile.SetUnit(newIntruder);
 		TickManager.Instance.addIntruder(newIntruder);
+		intruder = newIntruder;
+	}
+
+	public void addGuard(BaseGuard guard) {
+		guards.Add(guard);
 	}
 
     private T GetRandomUnit<T> (Type type) where T : BaseUnit {

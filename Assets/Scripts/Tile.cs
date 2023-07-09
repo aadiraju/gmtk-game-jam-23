@@ -66,6 +66,9 @@ public class Tile : MonoBehaviour {
     }
 
     void OnMouseDown() {
+		if (GameManager.Instance.GameState == GameState.Simulation) {
+			return;
+		}
         ToggleSelected();
         GameManager.Instance.SelectTile(this);
     }
@@ -84,6 +87,9 @@ public class Tile : MonoBehaviour {
         if(baseUnit.OccupiedTile != null) {
             baseUnit.OccupiedTile.OccupyingUnit = null;
         }
+		if(OccupyingUnit != null) {
+			OccupyingUnit.OccupiedTile = null;
+		}
         baseUnit.transform.position = transform.position;
         OccupyingUnit = baseUnit;
         baseUnit.OccupiedTile = this;

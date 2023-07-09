@@ -121,4 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   VisionDistance: 4
+  currentSuspicion: 0
+  maxSuspicion: 3
+  sawIntruder: 0
   skipDistance: 3
