@@ -44,10 +44,11 @@ public class UnitManager : MonoBehaviour
             guard.Reset();
         }
 
-        TickManager.Instance.removeIntruder();
-        Destroy(intruder.gameObject, 1f);
-        intruder = null;
-    }
+
+		TickManager.Instance.removeIntruder();
+		Destroy(intruder.gameObject);
+		intruder = null;
+	}
 
     public void SpawnIntruder()
     {
@@ -81,8 +82,17 @@ public class UnitManager : MonoBehaviour
         return guardsCost;
     }
 
+
     public int GetGuardsMaxCost()
     {
         return guardsMaxCost;
+        }
+
+	public void removeGuard(BaseGuard guard) {
+		guards.Remove(guard);
+	}
+
+    private T GetRandomUnit<T> (Type type) where T : BaseUnit {
+        return (T) units.Where(unit => unit.type == type).OrderBy(o => Random.value).First().UnitPrefab;
     }
 }
