@@ -123,7 +123,11 @@ public class BaseIntruder : BaseUnit {
 		Right
 	}
 
-	public override string SelectedString() {
+	public override string Description() {
+        return "BaseIntruder.";
+    }
+
+	public override string Title() {
         return "BaseIntruder.";
     }
 }

@@ -41,7 +41,11 @@ public class TwinShroom : BaseGuard
         }
     }
 
-    public override string SelectedString() {
-        return "TwinShrooms. Can see in front and behind themselves.";
+    public override string Description() {
+        return "Can see in front and behind themselves.";
+    }
+
+    public override string Title() {
+        return "TwinShrooms";
     }
 }

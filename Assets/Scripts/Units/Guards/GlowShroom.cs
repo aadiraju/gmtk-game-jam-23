@@ -20,7 +20,11 @@ public class GlowShroom : BaseGuard
         currentHits.AddRange(RaycastAndHighlight(Vector2.up, true));
     }
 
-    public override string SelectedString() {
-        return "GlowShroom. Can only see adjacent tiles.";
+    public override string Description() {
+        return "Can only see adjacent tiles.";
+    }
+
+    public override string Title() {
+        return "GlowShroom";
     }
 }

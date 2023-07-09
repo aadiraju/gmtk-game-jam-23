@@ -4304,6 +4304,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898880079}
     m_Modifications:
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: Delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 574561598157422772, guid: 124fc74cb398b2141986a4aec8616dd9, type: 3}
     - target: {fileID: 8034794719976534423, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Name
       value: BeamShroomGuardProfile
@@ -4716,6 +4724,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898880079}
     m_Modifications:
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: Delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 2947623279560027460, guid: 880a5cc04d820c8428550601179cdfdd, type: 3}
     - target: {fileID: 8034794719976534423, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Name
       value: FarShroomGuardProfile
@@ -5986,6 +6002,10 @@ PrefabInstance:
       propertyPath: Content
       value: These are the stats for the glow shroom guard.
       objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 2647940495032677164, guid: efe78a1bb4c36bd4c988b39f6816d1be, type: 3}
     - target: {fileID: 8034794719976534423, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Name
       value: GlowShroomGuardProfile
@@ -6838,6 +6858,10 @@ PrefabInstance:
       propertyPath: Delay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 2595269406543097554, guid: 4c978edf5d2d6944aa614454bdb57e89, type: 3}
     - target: {fileID: 8034794719976534423, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Name
       value: TwinShroomGaurdProfile
@@ -6957,6 +6981,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 898880079}
     m_Modifications:
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: Delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 6992434280227393059, guid: b00daf347fac28f40a927fd459694618, type: 3}
     - target: {fileID: 8034794719976534423, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Name
       value: BigLadGuardProfile
@@ -7400,6 +7432,10 @@ PrefabInstance:
       propertyPath: Header
       value: Basic Guard
       objectReference: {fileID: 0}
+    - target: {fileID: 2384482207101478604, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
+      propertyPath: UnitPrefab
+      value: 
+      objectReference: {fileID: 6951623618787281338, guid: 164aaeb4a7ed0a644b20e61e58e0c54c, type: 3}
     - target: {fileID: 3395739076861110029, guid: e97b0ee4b09cf024eb336df4dc345974, type: 3}
       propertyPath: m_Enabled
       value: 1

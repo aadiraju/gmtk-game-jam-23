@@ -32,7 +32,11 @@ public class GoldShroomController : BaseGuard
         }
     }
 
-    public override string SelectedString() {
-        return "GoldShroom. Protect it from being stolen!";
+    public override string Description() {
+        return "Protect it from being stolen!";
+    }
+
+    public override string Title() {
+        return "GoldShroom";
     }
 }

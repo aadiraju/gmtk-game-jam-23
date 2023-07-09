@@ -19,19 +19,17 @@ public class FocusText : MonoBehaviour
     }
 
     private string GenerateText(Tile tile) {
-        string UnitString = "";
         if(tile == null) {
             return DefaultMessage;
         } else if(tile.isWall){
-            UnitString = "Wall. Units cannot be placed here.";
+            return "Wall. Units cannot be placed here.";
         } else if(tile.Walkable){
-            UnitString = "Empty space. Units can be moved here.";
+            return "Empty space. Units can be moved here.";
         } else if (tile.OccupyingUnit is BaseGuard) {
-            UnitString = tile.OccupyingUnit.SelectedString();
+            return string.Format("{0}. {1}", tile.OccupyingUnit.Title(), tile.OccupyingUnit.Description());
         } else {
             return "Error.";
         }
-        return string.Format("{0}\n", UnitString);
     }
 
     void Start()

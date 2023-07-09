@@ -38,7 +38,11 @@ public class FarShroom : BaseGuard
         }
     }
 
-    public override string SelectedString() {
-        return "FarShroom. Can't see close by, but can see far away.";
+    public override string Description() {
+        return "Can't see close by, but can see far away.";
+    }
+
+    public override string Title() {
+        return "FarShroom";
     }
 }

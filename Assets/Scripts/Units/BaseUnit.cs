@@ -22,5 +22,7 @@ public abstract class BaseUnit : MonoBehaviour, Tickable
 	
 	public abstract void TickUp();
 
-    public abstract string SelectedString();
+    public abstract string Description();
+
+    public abstract string Title();
 }

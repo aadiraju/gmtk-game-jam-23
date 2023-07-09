@@ -20,7 +20,11 @@ public class LorgeShroom : BaseGuard
         currentHits.AddRange(RaycastAndHighlight(Vector2.up, true));
     }
 
-    public override string SelectedString() {
-        return "Chonker. Can only see adjacent squares.";
+    public override string Description() {
+        return "Can only see adjacent squares.";
+    }
+
+    public override string Title() {
+        return "ChonkShroom";
     }
 }

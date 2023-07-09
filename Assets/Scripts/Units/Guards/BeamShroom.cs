@@ -20,7 +20,11 @@ public class BeamShroom : BaseGuard
         currentHits.AddRange(RaycastAndHighlight(Vector2.zero));
     }
 
-    public override string SelectedString() {
-        return "BeamShroom. Can see very far forward in a narrow direction.";
+    public override string Description() {
+        return "Can see very far forward in a narrow direction.";
+    }
+
+    public override string Title() {
+        return "BeamShroom";
     }
 }

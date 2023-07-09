@@ -37,7 +37,11 @@ public class StaticGuard : BaseGuard
         }
     }
 
-    public override string SelectedString() {
-        return "StaticShroom. Looks forward for medium distance.";
+    public override string Description() {
+        return "Looks forward for medium distance.";
+    }
+
+    public override string Title() {
+        return "StaticShroom";
     }
 }
