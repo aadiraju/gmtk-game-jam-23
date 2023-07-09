@@ -31,4 +31,8 @@ public class GoldShroomController : BaseGuard
             }
         }
     }
+
+    public override string SelectedString() {
+        return "GoldShroom. Protect it from being stolen!";
+    }
 }

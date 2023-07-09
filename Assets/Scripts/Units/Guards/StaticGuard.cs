@@ -36,4 +36,8 @@ public class StaticGuard : BaseGuard
                currentHits.AddRange(RaycastAndHighlight(DirectionB * offset));
         }
     }
+
+    public override string SelectedString() {
+        return "StaticShroom. Looks forward for medium distance.";
+    }
 }

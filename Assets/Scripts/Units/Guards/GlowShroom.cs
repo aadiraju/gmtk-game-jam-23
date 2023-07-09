@@ -19,4 +19,8 @@ public class GlowShroom : BaseGuard
     protected override void DrawVisionCone() {
         currentHits.AddRange(RaycastAndHighlight(Vector2.up, true));
     }
+
+    public override string SelectedString() {
+        return "GlowShroom. Can only see adjacent tiles.";
+    }
 }

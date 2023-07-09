@@ -100,4 +100,8 @@ public class BaseIntruder : BaseUnit {
 		Left,
 		Right
 	}
+
+	public override string SelectedString() {
+        return "BaseIntruder.";
+    }
 }

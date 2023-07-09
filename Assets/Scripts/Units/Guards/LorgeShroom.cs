@@ -19,4 +19,8 @@ public class LorgeShroom : BaseGuard
     protected override void DrawVisionCone() {
         currentHits.AddRange(RaycastAndHighlight(Vector2.up, true));
     }
+
+    public override string SelectedString() {
+        return "Chonker. Can only see adjacent squares.";
+    }
 }
