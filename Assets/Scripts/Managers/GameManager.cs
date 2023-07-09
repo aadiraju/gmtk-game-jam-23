@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
     public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
+    public SoundHandler sh;
 
     void Awake()
     {
@@ -21,10 +22,12 @@ public class GameManager : MonoBehaviour
     {
 		level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
+        sh.PlayPlanningMusic();
     }
 
     public void SelectTile(Tile tile)
     {
+        sh.PlayClick();
         if (GameState == GameState.SelectSquare)
         { // A tile should be selected
             if (tile == SelectedTile)
