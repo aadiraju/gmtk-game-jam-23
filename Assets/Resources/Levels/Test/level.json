@@ -3,7 +3,12 @@
     {
       "startX": 0,
       "startY": 0,
-      "path": "RRURUUUUUU"
-    }
+      "path": "RRURUUUUUURURRRDDDRRRDDDDDRRRURRUURRRUUURRRRRRDDD"
+    },
+	{
+		"startX": 4,
+		"startY": 12,
+		"path": "DDDDRRRUUUURRRDDRRRDDDDDRRURRRRRRRRRDDD"
+	}
   ]
 }

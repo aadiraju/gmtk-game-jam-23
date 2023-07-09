@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] buttonSprites;
     public Vector2 GoldenShroomLocation = new(0, 0);
     public SoundHandler sh;
+    public int simulationNumber = 0;
 
     void Awake()
     {
@@ -156,6 +157,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        simulationNumber = 0;
         foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>())
         {
             GameObject.gameObject.SetActive(false);
