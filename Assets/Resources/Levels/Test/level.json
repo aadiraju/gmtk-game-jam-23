@@ -2,13 +2,33 @@
   "intruderPaths": [
     {
       "startX": 0,
-      "startY": 0,
-      "path": "RRURUUUUUURURRRDDDRRRDDDDDRRRURRUURRRUUURRRRRRDDD"
+      "startY": 2,
+      "path": "URRRURURRRRRRDRRRRRRRRRRU"
     },
-	{
-		"startX": 4,
-		"startY": 12,
-		"path": "DDDDRRRUUUURRRDDRRRDDDDDRRURRRRRRRRRDDD"
-	}
+    {
+      "startX": 12,
+      "startY": 12,
+      "path": "DDLDDDDDRDRRRRRUUURRR"
+    },
+    {
+      "startX": 0,
+      "startY": 0,
+      "path": "RRRUURRURURURRRRRRURRRRRRRRR"
+    },
+    {
+      "startX": 14,
+      "startY": 0,
+      "path": "UURURRRRRRRRUUULLL"
+    },
+    {
+      "startX": 22,
+      "startY": 12,
+      "path": "DDDDLLLDD"
+    },
+    {
+      "startX": 0,
+      "startY": 12,
+      "path": "DDRDDDDRDDDRRRRURRRRRRRRRDRRURUURR"
+    }
   ]
 }
