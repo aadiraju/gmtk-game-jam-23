@@ -156,7 +156,6 @@ public class GameManager : MonoBehaviour
 	}
 
 	public void GameOver() {
-		TickManager.Instance.active = false;
 		// Change button sprite to "play"
 		GameObject button = GameObject.Find("GoButton");
 		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
@@ -175,7 +174,14 @@ public class GameManager : MonoBehaviour
 
 	public void GuardsAlerted() {
 		Debug.Log("Guards alerted! Game over!");
-		GameOver();
+        TickManager.Instance.active = false;
+        StartCoroutine(TriggerIntruderDeath());
+	}
+
+    IEnumerator TriggerIntruderDeath() {
+		TickManager.Instance.intruder.TriggerCaughtAnim();
+		yield return new WaitForSeconds(2f); //wait for 2s to finish animation, then call game over
+        GameOver();
 	}
 }
 
