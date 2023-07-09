@@ -6,15 +6,17 @@ using UnityEngine.UIElements;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 
-public class Tile : MonoBehaviour
-{
+public class Tile : MonoBehaviour {
+	[SerializeField] private Sprite[] tileSprites;
     [SerializeField] private Color normalColor, offsetColor;
     [SerializeField] private SpriteRenderer renderer;
     [SerializeField] private GameObject highlight;
+    [SerializeField] private GameObject visionLight;
     
     [SerializeField] private bool isWalkable = true;
     [SerializeField] private int LightLevel;
 
+	public bool isWall = false;
     public BaseUnit OccupyingUnit = null;
     private bool Selected = false;
     public bool Walkable => isWalkable && OccupyingUnit == null;
@@ -24,6 +26,18 @@ public class Tile : MonoBehaviour
         isWalkable = true;
     }
 
+	public void Init(Variant variant) {
+		if (variant == Variant.empty) {
+			variant = Variant.pathEmpty;
+		}
+		renderer.sprite = tileSprites[(int) variant];
+		if ((int) variant >= 13 && (int) variant <= 18) {
+			isWalkable = true;
+		} else {
+			isWalkable = false;
+			isWall = true;
+		}
+	}
     void Update() {
         if(Selected && OccupyingUnit != null) {
             float x = Input.GetAxis("Horizontal");
@@ -37,12 +51,12 @@ public class Tile : MonoBehaviour
     }
 
     public void ToggleSelected() {
-        Selected = !Selected;
-        highlight.SetActive(Selected);
+		Selected = !Selected;
+		highlight.SetActive(Selected);
     }
 
     void OnMouseEnter() {
-        Highlight();
+        highlight.SetActive(true);
     }
 
     void OnMouseExit() {
@@ -56,12 +70,14 @@ public class Tile : MonoBehaviour
         GameManager.Instance.SelectTile(this);
     }
 
-    public void Highlight() {
-        highlight.SetActive(true);
+    public void VisionHighlight() {
+		if (!isWall) {
+	        visionLight.SetActive(true);
+		}
     }
 
-    public void Unhighlight() {
-         highlight.SetActive(false);
+    public void VisionUnhighlight() {
+        visionLight.SetActive(false);
     }
 
     public void SetUnit(BaseUnit baseUnit) {
@@ -72,4 +88,29 @@ public class Tile : MonoBehaviour
         OccupyingUnit = baseUnit;
         baseUnit.OccupiedTile = this;
     }
+
+	public enum Variant {
+		wallCorner0,
+		wallCorner1,
+		wallCorner2,
+		wallCorner3,
+		wallCorner4,
+		wallCorner5,
+		wallCorner6,
+		wallCorner7,
+		wallEdge0,
+		wallEdge1,
+		wallEdge2,
+		wallEdge3,
+		wallCenter,
+		pathEmpty,
+		pathDirt,
+		pathGrass,
+		pathThickGrass,
+		pathStoney,
+		pathMushrooms,
+		largeStone,
+		stump,
+		empty
+	}
 }
