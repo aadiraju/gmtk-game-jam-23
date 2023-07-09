@@ -5,7 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour {
 	public string GameScene;
+	private MainMenuMusicManager MusicManager;
 	public GameObject CreditsPopup;
+
+	void Awake() {
+		MusicManager = FindObjectOfType<MainMenuMusicManager>();
+	}
 
 	public void OnStartButtonPress() {
 		// Remove old AudioListener
@@ -25,9 +30,15 @@ public class ButtonManager : MonoBehaviour {
 
 	public void OnCreditsButtonPress() {
 		CreditsPopup.SetActive(true);
+
+		MusicManager.StopMainMenuMusic();
+		MusicManager.PlayCreditsMusic();
 	}
 
 	public void OnCreditsCloseButtonPress() {
 		CreditsPopup.SetActive(false);
+
+		MusicManager.StopCreditsMusic();
+		MusicManager.PlayMainMenuMusic();
 	}
 }
