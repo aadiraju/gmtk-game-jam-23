@@ -99,9 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
-  VisionDistance: 5
+  VisionDistance: 3
   currentSuspicion: 0
   maxSuspicion: 3
+  sawIntruder: 0
+  Cost: 2
 --- !u!95 &4878637972714848017
 Animator:
   serializedVersion: 5
