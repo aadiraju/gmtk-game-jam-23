@@ -22,7 +22,7 @@ public class UnitManager : MonoBehaviour
             var randomPrefab = GetRandomUnit<BaseGuard>(Type.Guard);
             var newGuard = Instantiate(randomPrefab);
             var randomTile = GridController.Instance.GetRandomFreeTile().GetComponent<Tile>();
-
+            newGuard.ToggleActive();
             randomTile.SetUnit(newGuard);
 			TickManager.Instance.addGuard(newGuard);
         }

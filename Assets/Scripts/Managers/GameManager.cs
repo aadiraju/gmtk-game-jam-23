@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
     {
         var newGuard = Instantiate(Guard);
         newGuard.transform.localScale = new Vector2(1, 1);
+        newGuard.ToggleActive();
         Destination.SetUnit(newGuard);
         GaurdProfile.ToggleSelected();
         GaurdProfile = null;
