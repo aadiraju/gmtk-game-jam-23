@@ -12,6 +12,8 @@ public class Tile : MonoBehaviour {
     [SerializeField] private SpriteRenderer renderer;
     [SerializeField] private GameObject highlight;
     [SerializeField] private GameObject visionLight;
+    [SerializeField] private GameObject lightingDim;
+    [SerializeField] private GameObject lightingDark;
     
     [SerializeField] private bool isWalkable = true;
     [SerializeField] private int LightLevel;
@@ -27,6 +29,7 @@ public class Tile : MonoBehaviour {
     }
 
 	public void Init(Variant variant) {
+        lightingDark.SetActive(true);
 		if (variant == Variant.empty) {
 			variant = Variant.pathEmpty;
 		}
@@ -68,6 +71,10 @@ public class Tile : MonoBehaviour {
     void OnMouseDown() {
         ToggleSelected();
         GameManager.Instance.SelectTile(this);
+    }
+
+    public void SetLightLevel(int level) {
+        LightLevel = level;
     }
 
     public void VisionHighlight() {

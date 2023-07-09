@@ -174,8 +174,10 @@ MonoBehaviour:
   renderer: {fileID: 4390610136052070347}
   highlight: {fileID: 2090734892571824331}
   visionLight: {fileID: 7401605446593304151}
+  lightingDim: {fileID: 4541336538624776591}
+  lightingDark: {fileID: 4893567057307150730}
   isWalkable: 1
-  LightLevel: 0
+  LightLevel: 3
   isWall: 0
   OccupyingUnit: {fileID: 0}
 --- !u!1 &2090734892571824331
@@ -336,7 +338,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 100
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0.7019608}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.12941177}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -420,7 +422,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 100
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.79607844}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.58431375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
