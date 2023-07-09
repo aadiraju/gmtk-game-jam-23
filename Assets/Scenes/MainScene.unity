@@ -4395,7 +4395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e94c71ae0f09f45b6f7dcbc09754a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   fixedTicksPerGameTick: 20
 --- !u!4 &250588482
 Transform:

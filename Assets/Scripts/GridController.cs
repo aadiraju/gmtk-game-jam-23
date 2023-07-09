@@ -29,14 +29,10 @@ public class GridController : MonoBehaviour
             for (int y = 0; y < height; y++) {
                 var newTile = Instantiate(TilePrefab, new Vector2(startX + x,startY + y), Quaternion.identity);
                 newTile.name = $"Tile {x} {y}";
-                // newTile.GetComponent<Tile>().Init((x + y) % 2 == 1);
                 newTile.GetComponent<Tile>().Init(map[x, y]);
                 tiles[new Vector2(x,y)] = newTile;
             }
         }
-
-        GameManager.Instance.ChangeState(GameState.SpawnGuards);
-        GameManager.Instance.ChangeState(GameState.SpawnIntruder);
     }
 
     public Tile GetTileAtPosition(Vector2 pos) {

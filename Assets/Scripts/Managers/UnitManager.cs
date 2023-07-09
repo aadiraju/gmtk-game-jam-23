@@ -10,11 +10,13 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private int guardCount = 10;
 
     private List<ScriptableUnit> units;
+	private List<BaseGuard> guards;
 
     void Awake() {
         Instance = this;
 
         units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
+		guards = new List<BaseGuard>();
     }
 
     public void SpawnGuards() {
@@ -25,8 +27,15 @@ public class UnitManager : MonoBehaviour
 
             randomTile.SetUnit(newGuard);
 			TickManager.Instance.addGuard(newGuard);
+			guards.Add(newGuard);
         }
     }
+
+	public void ResetGuards() {
+		foreach (var guard in guards) {
+			guard.Reset();
+		}
+	}
 
 	public void SpawnIntruder() {
 		Level level = GameManager.Instance.level;

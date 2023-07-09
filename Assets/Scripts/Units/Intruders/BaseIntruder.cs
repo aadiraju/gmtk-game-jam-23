@@ -9,7 +9,6 @@ public class BaseIntruder : BaseUnit {
 	public string path;
 	private int pathIndex = 0;
 	private bool reachedEndOfPath = false;
-	private int tick = 0;
 	
 	
     void Start() {}

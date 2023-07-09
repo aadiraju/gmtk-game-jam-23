@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     {
 		level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
+		ChangeState(GameState.SpawnGuards);
     }
 
     public void SelectTile(Tile tile)
@@ -113,6 +114,17 @@ public class GameManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
+
+	public void StartGame() {
+		UnitManager.Instance.ResetGuards();
+		ChangeState(GameState.SpawnIntruder);
+		TickManager.Instance.active = true;
+	}
+
+	public void GuardsAlerted() {
+		TickManager.Instance.active = false;
+		Debug.Log("Guards alerted! Game over!");
+	}
 }
 
 public enum GameState

@@ -4,24 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class BaseGuard : BaseUnit
+public abstract class BaseGuard : BaseUnit, Resetable
 {
     [SerializeField] private int VisionDistance = 4;
     protected List<RaycastHit2D> currentHits;
-    bool alert = false;
+	public int currentSuspicion;
+	public int maxSuspicion;
+	public bool sawIntruder = false;
     Animator animController;
     // Start is called before the first frame update
     void Awake()
     {
         currentHits = new List<RaycastHit2D>();
         animController = GetComponent<Animator>();
+		Reset();
     }
 
-    // Update is called once per frame
+	// Update is called once per frame
     void Update()
     {
         
     }
+
+    public void Reset() {
+		currentSuspicion = 0;
+	}
 
     void FixedUpdate() {
         if(currentHits != null) {
@@ -31,10 +38,11 @@ public abstract class BaseGuard : BaseUnit
     }
 
     public override void TickUp() {
+		sawIntruder = false;
         EraseVisionCone();
         DrawVisionCone();
-		foreach (var hit in currentHits) {
-			Debug.Log(hit);
+		if(sawIntruder) {
+			currentSuspicion++;
 		}
     }
     public override void Rotate(Vector2 direction) {
@@ -67,20 +75,22 @@ public abstract class BaseGuard : BaseUnit
 			hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
 		}
 		foreach (var hit in hits) {
-			// if (hit.collider != null) {
-			// 	Tile tile = hit.collider.GetComponent<Tile>();
-			// 	if (tile.isWall) {
-			// 		break;
-			// 	}
-			// 	if(tile.OccupyingUnit != this) {
-			// 		tile?.Highlight();
-			// 	}
-			// 	if(tile.OccupyingUnit is BaseIntruder && alert == false){
-			// 		Debug.Log("Guard has discovered intruder");
-			// 		alert = true;
-			// 	}
-			// }
-		}
+            if (hit.collider != null) {
+                Tile tile = hit.collider.GetComponent<Tile>();
+				if (tile.isWall) {
+                    if(Circle){
+                        continue;
+                    }
+					break;
+				}
+                if(tile.OccupyingUnit != this) {
+                    tile?.VisionHighlight();
+                }
+				if (tile.OccupyingUnit is BaseIntruder) {
+					sawIntruder = true;
+				}
+            }
+        }
 		return hits;
     }
 }

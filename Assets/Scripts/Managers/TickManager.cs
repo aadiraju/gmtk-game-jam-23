@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TickManager : MonoBehaviour {
 	public static TickManager Instance;
-	public bool active = true;
+	public bool active = false;
 	[SerializeField] private int fixedTicksPerGameTick = 20;
 	private int ticksSinceLastGameTick = 0;
 	private List<BaseGuard> tickableGuards = new List<BaseGuard>();
@@ -33,7 +33,12 @@ public class TickManager : MonoBehaviour {
 			guard.TickUp();
 		}
 
-		
+		foreach (var guard in tickableGuards) {
+			if (guard.currentSuspicion >= guard.maxSuspicion) {
+				GameManager.Instance.GuardsAlerted();
+				break;
+			}
+		}
 	}
 
 	public void addGuard(BaseGuard guard) {
