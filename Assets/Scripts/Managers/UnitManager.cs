@@ -61,6 +61,10 @@ public class UnitManager : MonoBehaviour
 		guards.Add(guard);
 	}
 
+	public void removeGuard(BaseGuard guard) {
+		guards.Remove(guard);
+	}
+
     private T GetRandomUnit<T> (Type type) where T : BaseUnit {
         return (T) units.Where(unit => unit.type == type).OrderBy(o => Random.value).First().UnitPrefab;
     }
