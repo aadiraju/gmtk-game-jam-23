@@ -8,6 +8,7 @@ public class GridController : MonoBehaviour
 {
     public static GridController Instance;
     [SerializeField] public int width, height;
+    [SerializeField] public BaseUnit GoldShroomPrefab;
     [SerializeField] private float startX, startY;
     [SerializeField] private GameObject TilePrefab;
 
@@ -27,9 +28,8 @@ public class GridController : MonoBehaviour
         tiles = new Dictionary<Vector2, GameObject>();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                var newTile = Instantiate(TilePrefab, new Vector2(startX + x,startY + y), Quaternion.identity);
+                var newTile = Instantiate(TilePrefab, new Vector2(startX + x - 0.5f,startY + y - 0.5f), Quaternion.identity);
                 newTile.name = $"Tile {x} {y}";
-                // newTile.GetComponent<Tile>().Init((x + y) % 2 == 1);
                 newTile.GetComponent<Tile>().Init(map[x, y]);
                 tiles[new Vector2(x,y)] = newTile;
             }
@@ -37,6 +37,11 @@ public class GridController : MonoBehaviour
 
         GameManager.Instance.ChangeState(GameState.SpawnGuards);
         GameManager.Instance.ChangeState(GameState.SpawnIntruder);
+
+        //Spawn Golden Shroom
+        BaseUnit newGold = Instantiate(GoldShroomPrefab);
+        Tile goldShroomTile = GetTileAtPosition(GameManager.Instance.GoldenShroomLocation);
+        goldShroomTile.SetUnit(newGold);
     }
 
     public Tile GetTileAtPosition(Vector2 pos) {

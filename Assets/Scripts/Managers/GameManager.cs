@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
+    public Vector2 GoldenShroomLocation = new(0,0);
     public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
     public SoundHandler sh;
 
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
                 SelectedTile = null;
                 ChangeState(GameState.EmptyState);
             } // Our selected has a guard -> we are moving it
-            else if (tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard && !tile.isWall)
+            else if (tile.OccupyingUnit == null && SelectedTile.OccupyingUnit != null && SelectedTile.OccupyingUnit is BaseGuard && !tile.isWall && SelectedTile.OccupyingUnit is not GoldShroomController)
             {
                 MoveGuard(tile, SelectedTile);
                 tile.ToggleSelected();
