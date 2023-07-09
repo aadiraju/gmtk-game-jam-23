@@ -54,7 +54,8 @@ public abstract class BaseGuard : BaseUnit
             if (hit.collider != null)
             {
                 Tile tile = hit.collider.GetComponent<Tile>();
-                if(tile.OccupyingUnit != this) {
+                if (tile.OccupyingUnit != this)
+                {
                     tile?.VisionUnhighlight();
                 }
             }
@@ -62,24 +63,35 @@ public abstract class BaseGuard : BaseUnit
         currentHits = new List<RaycastHit2D>();
     }
 
-    protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false) {
-       RaycastHit2D[] hits = {};
-       if(Circle) {
-        hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
-       } else {
-        hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
-        hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
-       }
-         foreach (var hit in hits) {
-            if (hit.collider != null) {
+    protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false)
+    {
+        RaycastHit2D[] hits = { };
+        if (!isActive)
+            return hits;
+        if (Circle)
+        {
+            hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+        }
+        else
+        {
+            hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+            hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
+        }
+        foreach (var hit in hits)
+        {
+            if (hit.collider != null)
+            {
                 Tile tile = hit.collider.GetComponent<Tile>();
-				if (tile.isWall) {
-                    if(Circle){
+                if (tile.isWall)
+                {
+                    if (Circle)
+                    {
                         continue;
                     }
-					break;
-				}
-                if(tile.OccupyingUnit != this) {
+                    break;
+                }
+                if (tile.OccupyingUnit != this)
+                {
                     tile?.VisionHighlight();
                 }
             }
@@ -87,7 +99,8 @@ public abstract class BaseGuard : BaseUnit
         return hits;
     }
 
-    public void ToggleActive() {
+    public void ToggleActive()
+    {
         isActive = !isActive;
     }
 }

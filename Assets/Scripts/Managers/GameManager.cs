@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
-	public Level level;
+    public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
-    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
+    public Vector2[] cardinals = { Vector2.down, Vector2.left, Vector2.up, Vector2.right };
 
     void Awake()
     {
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-		level = LevelLoader.GetLevel("Test");
+        level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
     }
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         }
         else if (GameState == GameState.SpawnGuard)
         {
-            if (tile.OccupyingUnit == null)
+            if (tile.OccupyingUnit == null && !tile.isWall)
                 SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
             tile.ToggleSelected();
             SelectedTile = null;
@@ -62,12 +62,12 @@ public class GameManager : MonoBehaviour
     public void SelectGaurdProfile(GaurdProfile profile)
     {
         GaurdProfile = profile;
+        ChangeState(profile == null ? GameState.EmptyState : GameState.SpawnGuard);
         if (SelectedTile != null)
         {
             SelectedTile.ToggleSelected();
             SelectedTile = null;
         }
-        ChangeState(GameState.SpawnGuard);
     }
 
     public void SpawnGaurd(Tile Destination, BaseGuard Guard)
