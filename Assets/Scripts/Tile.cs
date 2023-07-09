@@ -11,6 +11,7 @@ public class Tile : MonoBehaviour {
     [SerializeField] private Color normalColor, offsetColor;
     [SerializeField] private SpriteRenderer renderer;
     [SerializeField] private GameObject highlight;
+    [SerializeField] private GameObject visionLight;
     
     [SerializeField] private bool isWalkable = true;
     [SerializeField] private int LightLevel;
@@ -55,7 +56,7 @@ public class Tile : MonoBehaviour {
     }
 
     void OnMouseEnter() {
-        Highlight();
+        highlight.SetActive(true);
     }
 
     void OnMouseExit() {
@@ -69,14 +70,14 @@ public class Tile : MonoBehaviour {
         GameManager.Instance.SelectTile(this);
     }
 
-    public void Highlight() {
+    public void VisionHighlight() {
 		if (!isWall) {
-	        highlight.SetActive(true);
+	        visionLight.SetActive(true);
 		}
     }
 
-    public void Unhighlight() {
-         highlight.SetActive(false);
+    public void VisionUnhighlight() {
+        visionLight.SetActive(false);
     }
 
     public void SetUnit(BaseUnit baseUnit) {
