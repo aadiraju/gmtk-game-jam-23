@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         }
         else if (GameState == GameState.SpawnGuard)
         {
-            if (tile.OccupyingUnit == null && !tile.isWall)
+            if (tile.OccupyingUnit == null && !tile.isWall && UnitManager.Instance.GetGuardsCost() + GaurdProfile.ProfileGaurd.Cost <= UnitManager.Instance.GetGuardsMaxCost() )
                 SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
             else
             {
