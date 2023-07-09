@@ -53,6 +53,10 @@ public class TickManager : MonoBehaviour {
 		guardsToRemove.Add(guard);
 	}
 
+	public void DeleteGuard(BaseGuard guard) {
+		tickableGuards.Remove(guard);
+	}
+
 	public void removeIntruder() {
 		intruder.OccupiedTile.OccupyingUnit = null;
 		intruder = null;
