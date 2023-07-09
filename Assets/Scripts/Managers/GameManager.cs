@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         // Change button sprite to "back"
         GameObject button = GameObject.Find("GoButton");
         button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
-        button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
+        button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
 
         // Set button onclick to gameover
         button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();

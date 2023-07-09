@@ -13,10 +13,7 @@ public class Videomanager : MonoBehaviour {
     void Update () {
         double currentTime = gameObject.GetComponent<UnityEngine.Video.VideoPlayer>().time;
         if (currentTime >= totalTime * 0.99) {
-            Debug.Log ("//do Stuff");
 			gameObject.GetComponent<UnityEngine.Video.VideoPlayer>().time = 14f;
-        } else {
-			Debug.Log (currentTime + " / " + totalTime);
-		}
+        }
     }
 }
