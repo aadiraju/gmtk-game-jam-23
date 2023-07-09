@@ -72,11 +72,6 @@ public class UnitManager : MonoBehaviour
         guards.Add(guard);
     }
 
-    private T GetRandomUnit<T>(Type type) where T : BaseUnit
-    {
-        return (T)units.Where(unit => unit.type == type).OrderBy(o => Random.value).First().UnitPrefab;
-    }
-
     public int GetGuardsCost()
     {
         return guardsCost;
@@ -89,6 +84,7 @@ public class UnitManager : MonoBehaviour
         }
 
 	public void removeGuard(BaseGuard guard) {
+		guardsCost -= guard.Cost;
 		guards.Remove(guard);
 	}
 
