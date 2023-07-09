@@ -16,7 +16,8 @@ public class LevelLoader {
 	private static Color goldShroom2 = new Color(1.00f, 0.788f, 0.055f, 1.00f); // Paint "gold2"
 	public static Level GetLevel(string levelName) {
 		// Read the JSON file
-        string jsonContent = File.ReadAllText("Assets/Resources/Levels/" + levelName + "/level.json");
+        TextAsset textAsset = Resources.Load<TextAsset>("Levels/" + levelName + "/level");
+		string jsonContent = textAsset.text;
 
         // Deserialize the JSON into Level object
         Level level = JsonConvert.DeserializeObject<Level>(jsonContent);
