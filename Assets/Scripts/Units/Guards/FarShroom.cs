@@ -37,4 +37,12 @@ public class FarShroom : BaseGuard
                currentHits.AddRange(RaycastAndHighlight(DirectionB * offset, skipDistance: skipDistance));
         }
     }
+
+    public override string Description() {
+        return "Can't see close by, but can see far away.";
+    }
+
+    public override string Title() {
+        return "FarShroom";
+    }
 }

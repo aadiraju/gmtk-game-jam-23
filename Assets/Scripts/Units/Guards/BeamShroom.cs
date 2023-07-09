@@ -19,4 +19,12 @@ public class BeamShroom : BaseGuard
     protected override void DrawVisionCone() {
         currentHits.AddRange(RaycastAndHighlight(Vector2.zero));
     }
+
+    public override string Description() {
+        return "Can see very far forward in a narrow direction.";
+    }
+
+    public override string Title() {
+        return "BeamShroom";
+    }
 }

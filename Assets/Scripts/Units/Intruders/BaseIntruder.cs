@@ -122,4 +122,12 @@ public class BaseIntruder : BaseUnit {
 		Left,
 		Right
 	}
+
+	public override string Description() {
+        return "BaseIntruder.";
+    }
+
+	public override string Title() {
+        return "BaseIntruder.";
+    }
 }
