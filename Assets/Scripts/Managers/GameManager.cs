@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
-    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
-	public Sprite[] buttonSprites;
-    public Vector2 GoldenShroomLocation = new(0,0);
+    public Vector2[] cardinals = { Vector2.down, Vector2.left, Vector2.up, Vector2.right };
+    public Sprite[] buttonSprites;
+    public Vector2 GoldenShroomLocation = new(0, 0);
     public SoundHandler sh;
 
     void Awake()
@@ -24,15 +24,16 @@ public class GameManager : MonoBehaviour
     {
         level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
-		ChangeState(GameState.SpawnGuards);
+        ChangeState(GameState.SpawnGuards);
         sh.PlayPlanningMusic();
     }
 
     public void SelectTile(Tile tile)
     {
-		if (GameState == GameState.Simulation) {
-			return;
-		}
+        if (GameState == GameState.Simulation)
+        {
+            return;
+        }
         sh.PlayClick();
         if (GameState == GameState.SelectSquare)
         { // A tile should be selected
@@ -58,7 +59,8 @@ public class GameManager : MonoBehaviour
         {
             if (tile.OccupyingUnit == null && !tile.isWall)
                 SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
-            else {
+            else
+            {
                 GaurdProfile.ToggleSelected();
                 GaurdProfile = null;
             }
@@ -75,9 +77,10 @@ public class GameManager : MonoBehaviour
 
     public void SelectGaurdProfile(GaurdProfile profile)
     {
-		if (GameState == GameState.Simulation) {
-			return;
-		}
+        if (GameState == GameState.Simulation)
+        {
+            return;
+        }
         GaurdProfile = profile;
         ChangeState(profile == null ? GameState.EmptyState : GameState.SpawnGuard);
         if (SelectedTile != null)
@@ -92,8 +95,8 @@ public class GameManager : MonoBehaviour
         var newGuard = Instantiate(Guard);
         newGuard.transform.localScale = new Vector2(1, 1);
         newGuard.ToggleActive();
-		TickManager.Instance.addGuard(newGuard);
-		UnitManager.Instance.addGuard(newGuard);
+        TickManager.Instance.addGuard(newGuard);
+        UnitManager.Instance.addGuard(newGuard);
         Destination.SetUnit(newGuard);
         GaurdProfile.ToggleSelected();
         GaurdProfile = null;
@@ -129,54 +132,73 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpawnGuard:
                 break;
-			case GameState.Simulation:
-				break;
+            case GameState.Simulation:
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
-	public void StartGame() {
-		foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>()) {
-			GameObject.gameObject.SetActive(false);
-			Destroy(GameObject.gameObject);
-		}
-		ChangeState(GameState.SpawnIntruder);
-		ChangeState(GameState.Simulation);
-		TickManager.Instance.active = true;
-		// Change button sprite to "back"
-		GameObject button = GameObject.Find("GoButton");
-		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
-		button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
+    public void DeleteGuard()
+    {
+        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard)
+        {
+            TickManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            UnitManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            ((BaseGuard)SelectedTile.OccupyingUnit).EraseVisionCone();
+            Destroy(SelectedTile.OccupyingUnit.gameObject);
+            SelectedTile.OccupyingUnit = null;
+            SelectedTile.ToggleSelected();
+            SelectedTile = null;
+            ChangeState(GameState.EmptyState);
+        }
+    }
 
-		// Set button onclick to gameover
-		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
-		
-	}
+    public void StartGame()
+    {
+        foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>())
+        {
+            GameObject.gameObject.SetActive(false);
+            Destroy(GameObject.gameObject);
+        }
+        ChangeState(GameState.SpawnIntruder);
+        ChangeState(GameState.Simulation);
+        TickManager.Instance.active = true;
+        // Change button sprite to "back"
+        GameObject button = GameObject.Find("GoButton");
+        button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
+        button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
 
-	public void GameOver() {
-		TickManager.Instance.active = false;
-		// Change button sprite to "play"
-		GameObject button = GameObject.Find("GoButton");
-		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
-		button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+        // Set button onclick to gameover
+        button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
 
-		// Set button onclick to startgame
-		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(StartGame);
-		
-		// Reset guards
-		UnitManager.Instance.ResetUnits();
+    }
 
-		// Set state back to spawn guards
-		GameState = GameState.EmptyState;
-	}
+    public void GameOver()
+    {
+        TickManager.Instance.active = false;
+        // Change button sprite to "play"
+        GameObject button = GameObject.Find("GoButton");
+        button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
+        button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
 
-	public void GuardsAlerted() {
-		Debug.Log("Guards alerted! Game over!");
-		GameOver();
-	}
+        // Set button onclick to startgame
+        button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(StartGame);
+
+        // Reset guards
+        UnitManager.Instance.ResetUnits();
+
+        // Set state back to spawn guards
+        GameState = GameState.EmptyState;
+    }
+
+    public void GuardsAlerted()
+    {
+        Debug.Log("Guards alerted! Game over!");
+        GameOver();
+    }
 }
 
 public enum GameState
@@ -188,5 +210,5 @@ public enum GameState
     SelectSquare = 4,
     EmptyState = 5,
     SpawnGuard = 6,
-	Simulation = 7
+    Simulation = 7
 }
