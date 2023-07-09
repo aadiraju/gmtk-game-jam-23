@@ -28,6 +28,7 @@ public abstract class BaseGuard : BaseUnit, Resetable
 
     public void Reset() {
 		currentSuspicion = 0;
+		gameObject.SetActive(true);
 	}
 
     void FixedUpdate() {
@@ -38,6 +39,9 @@ public abstract class BaseGuard : BaseUnit, Resetable
     }
 
     public override void TickUp() {
+		if (gameObject.activeSelf == false) {
+			return;
+		}
 		sawIntruder = false;
         EraseVisionCone();
         DrawVisionCone();
@@ -54,7 +58,7 @@ public abstract class BaseGuard : BaseUnit, Resetable
 
     protected abstract void DrawVisionCone();
 
-    protected void EraseVisionCone() {
+    public void EraseVisionCone() {
         foreach (var hit in currentHits) {
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();

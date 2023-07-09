@@ -11,6 +11,7 @@ public class UnitManager : MonoBehaviour
 
     private List<ScriptableUnit> units;
 	private List<BaseGuard> guards;
+	private BaseIntruder intruder;
 
     void Awake() {
         Instance = this;
@@ -31,10 +32,14 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-	public void ResetGuards() {
+	public void ResetUnits() {
 		foreach (var guard in guards) {
 			guard.Reset();
 		}
+
+		TickManager.Instance.removeIntruder();
+		Destroy(intruder.gameObject);
+		intruder = null;
 	}
 
 	public void SpawnIntruder() {
@@ -43,9 +48,11 @@ public class UnitManager : MonoBehaviour
 		var newIntruder = Instantiate(randomPrefab);
 		var randomTile = GridController.Instance.GetTileAtPosition(new Vector2(level.intruderPaths[0].startX, level.intruderPaths[0].startY));
 		newIntruder.path = level.intruderPaths[0].path;
+		newIntruder.gameObject.SetActive(true);
 
 		randomTile.SetUnit(newIntruder);
 		TickManager.Instance.addIntruder(newIntruder);
+		intruder = newIntruder;
 	}
 
     private T GetRandomUnit<T> (Type type) where T : BaseUnit {

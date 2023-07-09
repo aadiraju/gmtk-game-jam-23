@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
     public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
+	public Sprite[] buttonSprites;
 
     void Awake()
     {
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     public void SelectTile(Tile tile)
     {
+		if (GameState == GameState.Simulation) {
+			return;
+		}
         if (GameState == GameState.SelectSquare)
         { // A tile should be selected
             if (tile == SelectedTile)
@@ -62,6 +66,9 @@ public class GameManager : MonoBehaviour
 
     public void SelectGaurdProfile(GaurdProfile profile)
     {
+		if (GameState == GameState.Simulation) {
+			return;
+		}
         GaurdProfile = profile;
         if (SelectedTile != null)
         {
@@ -110,20 +117,53 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpawnGuard:
                 break;
+			case GameState.Simulation:
+				break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
 	public void StartGame() {
-		UnitManager.Instance.ResetGuards();
+		foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>()) {
+			GameObject.gameObject.SetActive(false);
+			Destroy(GameObject.gameObject);
+		}
 		ChangeState(GameState.SpawnIntruder);
+		ChangeState(GameState.Simulation);
 		TickManager.Instance.active = true;
+		// Change button sprite to "back"
+		GameObject button = GameObject.Find("GoButton");
+		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
+		button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
+
+		// Set button onclick to gameover
+		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
+		
+	}
+
+	public void GameOver() {
+		TickManager.Instance.active = false;
+		// Change button sprite to "play"
+		GameObject button = GameObject.Find("GoButton");
+		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
+		button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+
+		// Set button onclick to startgame
+		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(StartGame);
+		
+		// Reset guards
+		UnitManager.Instance.ResetUnits();
+
+		// Set state back to spawn guards
+		GameState = GameState.SpawnGuards;
 	}
 
 	public void GuardsAlerted() {
-		TickManager.Instance.active = false;
 		Debug.Log("Guards alerted! Game over!");
+		GameOver();
 	}
 }
 
@@ -136,4 +176,5 @@ public enum GameState
     SelectSquare = 4,
     EmptyState = 5,
     SpawnGuard = 6,
+	Simulation = 7
 }

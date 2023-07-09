@@ -15,7 +15,7 @@ public class BaseIntruder : BaseUnit {
 
 	override public void TickUp() {
 		if (reachedEndOfPath) {
-			TickManager.Instance.removeIntruder(this);
+			TickManager.Instance.removeIntruder();
 			return;
 		}
 
@@ -43,9 +43,12 @@ public class BaseIntruder : BaseUnit {
 			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).isWall) {
 				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
 			} else {
-				BaseUnit guard = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
-				TickManager.Instance.removeGuard((BaseGuard)guard);
-				Destroy(guard.gameObject);
+				BaseUnit unit = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
+				if (unit is BaseGuard) {
+					BaseGuard guard = (BaseGuard)unit;
+					guard.EraseVisionCone();
+					guard.gameObject.SetActive(false);
+				}
 			}
 		}
 

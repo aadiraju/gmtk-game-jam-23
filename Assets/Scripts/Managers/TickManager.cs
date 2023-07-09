@@ -8,7 +8,7 @@ public class TickManager : MonoBehaviour {
 	[SerializeField] private int fixedTicksPerGameTick = 20;
 	private int ticksSinceLastGameTick = 0;
 	private List<BaseGuard> tickableGuards = new List<BaseGuard>();
-	private List<BaseIntruder> tickableIntruders = new List<BaseIntruder>();
+	private BaseIntruder intruder;
 	private List<BaseGuard> guardsToRemove = new List<BaseGuard>();
 	private List<BaseIntruder> intrudersToRemove = new List<BaseIntruder>();
 
@@ -25,7 +25,7 @@ public class TickManager : MonoBehaviour {
 	}
 
 	private void TickUnits() {
-		foreach (var intruder in tickableIntruders) {
+		if (intruder != null) {
 			intruder.TickUp();
 		}
 
@@ -46,24 +46,20 @@ public class TickManager : MonoBehaviour {
 	}
 
 	public void addIntruder(BaseIntruder intruder) {
-		tickableIntruders.Add(intruder);
+		this.intruder = intruder;
 	}
 
 	public void removeGuard(BaseGuard guard) {
 		guardsToRemove.Add(guard);
 	}
 
-	public void removeIntruder(BaseIntruder intruder) {
-		intrudersToRemove.Add(intruder);
+	public void removeIntruder() {
+		intruder = null;
 	}
 
 	private void executeRemovals() {
 		foreach (var guard in guardsToRemove) {
 			tickableGuards.Remove(guard);
-		}
-
-		foreach (var intruder in intrudersToRemove) {
-			tickableIntruders.Remove(intruder);
 		}
 	}
 }
