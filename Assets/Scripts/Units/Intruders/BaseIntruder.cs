@@ -9,14 +9,13 @@ public class BaseIntruder : BaseUnit {
 	public string path;
 	private int pathIndex = 0;
 	private bool reachedEndOfPath = false;
-	private int tick = 0;
 	
 	
     void Start() {}
 
 	override public void TickUp() {
 		if (reachedEndOfPath) {
-			TickManager.Instance.removeIntruder(this);
+			TickManager.Instance.removeIntruder();
 			return;
 		}
 
@@ -39,18 +38,31 @@ public class BaseIntruder : BaseUnit {
 		if (x < 0 || x >= GridController.Instance.height || y < 0 || y >= GridController.Instance.width) {
 			throw new System.ArgumentException("Intruder went out of bounds. Write a proper path mate.");
 		}
+		bool fixOccupiedTile = false;
+		Tile tileFix = null;
+		BaseGuard guardFix = null;
 		if (!GridController.Instance.GetTileAtPosition(new Vector2(x, y)).Walkable) {
 			// Check if tile is a wall or guard
 			if (GridController.Instance.GetTileAtPosition(new Vector2(x, y)).isWall) {
 				throw new System.ArgumentException("Intruder tried to walk into a wall. Write a proper path mate.");
 			} else {
-				BaseUnit guard = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
-				TickManager.Instance.removeGuard((BaseGuard)guard);
-				Destroy(guard.gameObject);
+				BaseUnit unit = GridController.Instance.GetTileAtPosition(new Vector2(x, y)).OccupyingUnit;
+				if (unit is BaseGuard) {
+					BaseGuard guard = (BaseGuard)unit;
+					guard.EraseVisionCone();
+					guard.gameObject.SetActive(false);
+					fixOccupiedTile = true;
+					guardFix = guard;
+					tileFix = guard.OccupiedTile;
+				}
 			}
 		}
 
 		SetPosition(x, y);
+
+		if (fixOccupiedTile) {
+			guardFix.OccupiedTile = tileFix;
+		}
 
 		if (pathIndex >= path.Length) {
 			reachedEndOfPath = true;

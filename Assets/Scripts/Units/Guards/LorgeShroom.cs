@@ -18,8 +18,5 @@ public class LorgeShroom : BaseGuard
 
     protected override void DrawVisionCone() {
         currentHits.AddRange(RaycastAndHighlight(Vector2.up, true));
-        currentHits.AddRange(RaycastAndHighlight(Vector2.down, true));
-        currentHits.AddRange(RaycastAndHighlight(Vector2.left, true));
-        currentHits.AddRange(RaycastAndHighlight(Vector2.right, true));
     }
 }
