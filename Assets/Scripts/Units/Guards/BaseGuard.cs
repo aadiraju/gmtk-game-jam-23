@@ -53,13 +53,13 @@ public abstract class BaseGuard : BaseUnit
         currentHits = new List<RaycastHit2D>();
     }
 
-    protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false) {
+    protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false, int skipDistance = 0) {
        RaycastHit2D[] hits = {};
        if(Circle) {
         hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
        } else {
-        hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
-        hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
+        hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance + skipDistance, LayerMask.GetMask("Grid"));
+        hits = hits.Skip(skipDistance + 1).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
        }
          foreach (var hit in hits) {
             if (hit.collider != null) {
