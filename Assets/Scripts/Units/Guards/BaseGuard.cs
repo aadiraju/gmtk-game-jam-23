@@ -8,7 +8,7 @@ public abstract class BaseGuard : BaseUnit
 {
     [SerializeField] private int VisionDistance = 4;
     protected List<RaycastHit2D> currentHits;
-    
+    bool alert = false;
     Animator animController;
     // Start is called before the first frame update
     void Awake()
@@ -72,8 +72,9 @@ public abstract class BaseGuard : BaseUnit
                 if(tile.OccupyingUnit != this) {
                     tile?.Highlight();
                 }
-                if(tile.OccupyingUnit is BaseIntruder){
+                if(tile.OccupyingUnit is BaseIntruder && alert == false){
                     Debug.Log("Guard has discovered intruder");
+                    alert = true;
                 }
             }
         }
