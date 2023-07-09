@@ -1,0 +1,25 @@
+{
+	"intruderPaths": [
+		{
+			"startX": 0,
+			"startY": 4,
+			"path": "RDDDRUUUULUURRURRRRURRDRDRDRDRURRRRRRURRDDLDDDRRRUURR"
+		},
+		{
+			"startX": 12,
+			"startY": 12,
+			"path": "LLLLLDDDDDDDDDDDDRRRRRRRRURRRRRRRRRRUUU"
+		},
+		{
+			"startX": 0,
+			"startY": 12,
+			"path": "RRRRRRRRRRRRDRRURRRDDDRRDDRUURDDDRRUUURRDDRDDDL"
+		},
+		{
+			"startX": 8,
+			"startY": 8,
+			"path": "DDRRUURRRRURRRRRDDDLLLDDDDDDRRRRUUUUUUUUUUURRRRRURDDDDDDDDL"
+		}
+	]
+}
+  

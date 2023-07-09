@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        level = LevelLoader.GetLevel("Test");
+        level = LevelLoader.GetLevel("Level1");
         ChangeState(GameState.MakeGrid);
 		ChangeState(GameState.SpawnGuards);
         sh.PlayPlanningMusic();

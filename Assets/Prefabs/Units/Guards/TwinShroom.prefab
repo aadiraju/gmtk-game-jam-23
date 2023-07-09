@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
-  VisionDistance: 5
+  VisionDistance: 2
   currentSuspicion: 0
   maxSuspicion: 3
+  sawIntruder: 0
