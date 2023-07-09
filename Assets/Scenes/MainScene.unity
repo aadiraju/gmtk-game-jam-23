@@ -4481,6 +4481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guardCount: 5
+  guardsCost: 0
+  guardsMaxCost: 10
 --- !u!4 &250588482
 Transform:
   m_ObjectHideFlags: 0
@@ -6836,6 +6838,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1355936974}
     m_Modifications:
+    - target: {fileID: 2595269406543097554, guid: 4c978edf5d2d6944aa614454bdb57e89, type: 3}
+      propertyPath: Cost
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2595269406543097554, guid: 4c978edf5d2d6944aa614454bdb57e89, type: 3}
       propertyPath: m_Enabled
       value: 1
