@@ -66,6 +66,9 @@ public abstract class BaseGuard : BaseUnit
          foreach (var hit in hits) {
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
+				if (tile.isWall) {
+					break;
+				}
                 if(tile.OccupyingUnit != this) {
                     tile?.Highlight();
                 }
