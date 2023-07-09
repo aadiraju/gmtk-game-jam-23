@@ -31,6 +31,8 @@ public abstract class BaseGuard : BaseUnit
     }
 
     public override void TickUp() {
+        EraseVisionCone();
+        DrawVisionCone();
     }
     public override void Rotate(Vector2 direction) {
         //TODO: Make sure it's one of the 4 cardinals
