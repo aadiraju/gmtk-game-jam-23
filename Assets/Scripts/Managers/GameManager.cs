@@ -7,11 +7,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState GameState;
-	public Level level;
+    public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
     public Vector2 GoldenShroomLocation = new(0,0);
-    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
+    public Vector2[] cardinals = { Vector2.down, Vector2.left, Vector2.up, Vector2.right };
     public SoundHandler sh;
 
     void Awake()
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-		level = LevelLoader.GetLevel("Test");
+        level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
         sh.PlayPlanningMusic();
     }
@@ -51,10 +51,13 @@ public class GameManager : MonoBehaviour
         }
         else if (GameState == GameState.SpawnGuard)
         {
-            if (tile.OccupyingUnit == null)
+            if (tile.OccupyingUnit == null && !tile.isWall)
                 SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
+            GaurdProfile.ToggleSelected();
+            GaurdProfile = null;
             tile.ToggleSelected();
             SelectedTile = null;
+            ChangeState(GameState.EmptyState);
         }
         else
         {
@@ -66,18 +69,19 @@ public class GameManager : MonoBehaviour
     public void SelectGaurdProfile(GaurdProfile profile)
     {
         GaurdProfile = profile;
+        ChangeState(profile == null ? GameState.EmptyState : GameState.SpawnGuard);
         if (SelectedTile != null)
         {
             SelectedTile.ToggleSelected();
             SelectedTile = null;
         }
-        ChangeState(GameState.SpawnGuard);
     }
 
     public void SpawnGaurd(Tile Destination, BaseGuard Guard)
     {
         var newGuard = Instantiate(Guard);
         newGuard.transform.localScale = new Vector2(1, 1);
+        newGuard.ToggleActive();
         Destination.SetUnit(newGuard);
         GaurdProfile.ToggleSelected();
         GaurdProfile = null;

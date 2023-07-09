@@ -8,7 +8,9 @@ public abstract class BaseGuard : BaseUnit
 {
     [SerializeField] private int VisionDistance = 4;
     protected List<RaycastHit2D> currentHits;
-    
+
+    private bool isActive = false;
+
     Animator animController;
     // Start is called before the first frame update
     void Awake()
@@ -20,19 +22,23 @@ public abstract class BaseGuard : BaseUnit
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    void FixedUpdate() {
-        if(currentHits != null) {
+    void FixedUpdate()
+    {
+        if (currentHits != null)
+        {
             EraseVisionCone();
             DrawVisionCone();
         }
     }
 
-    public override void TickUp() {
+    public override void TickUp()
+    {
     }
-    public override void Rotate(Vector2 direction) {
+    public override void Rotate(Vector2 direction)
+    {
         //TODO: Make sure it's one of the 4 cardinals
         lookDirection = direction;
         animController.SetFloat("Move X", direction.x);
@@ -41,11 +47,15 @@ public abstract class BaseGuard : BaseUnit
 
     protected abstract void DrawVisionCone();
 
-    protected void EraseVisionCone() {
-        foreach (var hit in currentHits) {
-            if (hit.collider != null) {
+    protected void EraseVisionCone()
+    {
+        foreach (var hit in currentHits)
+        {
+            if (hit.collider != null)
+            {
                 Tile tile = hit.collider.GetComponent<Tile>();
-                if(tile.OccupyingUnit != this) {
+                if (tile.OccupyingUnit != this)
+                {
                     tile?.VisionUnhighlight();
                 }
             }
@@ -55,6 +65,8 @@ public abstract class BaseGuard : BaseUnit
 
     protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false, int skipDistance = 0) {
        RaycastHit2D[] hits = {};
+       if (!isActive)
+            return hits;
        if(Circle) {
         hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
        } else {
@@ -64,17 +76,25 @@ public abstract class BaseGuard : BaseUnit
          foreach (var hit in hits) {
             if (hit.collider != null) {
                 Tile tile = hit.collider.GetComponent<Tile>();
-				if (tile.isWall) {
-                    if(Circle){
+                if (tile.isWall)
+                {
+                    if (Circle)
+                    {
                         continue;
                     }
-					break;
-				}
-                if(tile.OccupyingUnit != this) {
+                    break;
+                }
+                if (tile.OccupyingUnit != this)
+                {
                     tile?.VisionHighlight();
                 }
             }
         }
         return hits;
+    }
+
+    public void ToggleActive()
+    {
+        isActive = !isActive;
     }
 }
