@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class BaseIntruder : BaseUnit {
@@ -9,9 +10,14 @@ public class BaseIntruder : BaseUnit {
 	public string path;
 	private int pathIndex = 0;
 	private bool reachedEndOfPath = false;
+	Animator animController;
 	
 	
     void Start() {}
+
+	void Awake() {
+		animController = GetComponent<Animator>();
+	}
 
 	override public void TickUp() {
 		if (reachedEndOfPath) {
@@ -23,15 +29,19 @@ public class BaseIntruder : BaseUnit {
 		switch (direction) {
 			case Direction.Up:
 				y++;
+				Rotate(Vector2.up);
 				break;
 			case Direction.Down:
 				y--;
+				Rotate(Vector2.down);
 				break;
 			case Direction.Left:
 				x--;
+				Rotate(Vector2.left);
 				break;
 			case Direction.Right:
 				x++;
+				Rotate(Vector2.right);
 				break;
 		}
 
@@ -97,7 +107,14 @@ public class BaseIntruder : BaseUnit {
 	}
 
 	 public override void Rotate(Vector2 direction) {
+		lookDirection = direction;
+        animController.SetFloat("Move X", direction.x);
+        animController.SetFloat("Move Y", direction.y);
     }
+
+	public void TriggerCaughtAnim() {
+		animController.SetTrigger("Caught");
+	}
 
 	private enum Direction {
 		Up,
@@ -105,4 +122,12 @@ public class BaseIntruder : BaseUnit {
 		Left,
 		Right
 	}
+
+	public override string Description() {
+        return "BaseIntruder.";
+    }
+
+	public override string Title() {
+        return "BaseIntruder.";
+    }
 }

@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour
     public Level level;
     public Tile SelectedTile = null;
     public GaurdProfile GaurdProfile = null;
-    public Vector2[] cardinals = {Vector2.down, Vector2.left, Vector2.up, Vector2.right};
-	public Sprite[] buttonSprites;
-    public Vector2 GoldenShroomLocation = new(0,0);
+    public Vector2[] cardinals = { Vector2.down, Vector2.left, Vector2.up, Vector2.right };
+    public Sprite[] buttonSprites;
+    public Vector2 GoldenShroomLocation = new(0, 0);
     public SoundHandler sh;
-	public int simulationNumber = 0;
+    public int simulationNumber = 0;
 
     void Awake()
     {
@@ -25,15 +25,16 @@ public class GameManager : MonoBehaviour
     {
         level = LevelLoader.GetLevel("Test");
         ChangeState(GameState.MakeGrid);
-		ChangeState(GameState.SpawnGuards);
+        ChangeState(GameState.SpawnGuards);
         sh.PlayPlanningMusic();
     }
 
     public void SelectTile(Tile tile)
     {
-		if (GameState == GameState.Simulation) {
-			return;
-		}
+        if (GameState == GameState.Simulation)
+        {
+            return;
+        }
         sh.PlayClick();
         if (GameState == GameState.SelectSquare)
         { // A tile should be selected
@@ -57,9 +58,10 @@ public class GameManager : MonoBehaviour
         }
         else if (GameState == GameState.SpawnGuard)
         {
-            if (tile.OccupyingUnit == null && !tile.isWall)
+            if (tile.OccupyingUnit == null && !tile.isWall && UnitManager.Instance.GetGuardsCost() + GaurdProfile.ProfileGaurd.Cost <= UnitManager.Instance.GetGuardsMaxCost() )
                 SpawnGaurd(tile, GaurdProfile.ProfileGaurd);
-            else {
+            else
+            {
                 GaurdProfile.ToggleSelected();
                 GaurdProfile = null;
             }
@@ -76,9 +78,10 @@ public class GameManager : MonoBehaviour
 
     public void SelectGaurdProfile(GaurdProfile profile)
     {
-		if (GameState == GameState.Simulation) {
-			return;
-		}
+        if (GameState == GameState.Simulation)
+        {
+            return;
+        }
         GaurdProfile = profile;
         ChangeState(profile == null ? GameState.EmptyState : GameState.SpawnGuard);
         if (SelectedTile != null)
@@ -93,8 +96,8 @@ public class GameManager : MonoBehaviour
         var newGuard = Instantiate(Guard);
         newGuard.transform.localScale = new Vector2(1, 1);
         newGuard.ToggleActive();
-		TickManager.Instance.addGuard(newGuard);
-		UnitManager.Instance.addGuard(newGuard);
+        TickManager.Instance.addGuard(newGuard);
+        UnitManager.Instance.addGuard(newGuard);
         Destination.SetUnit(newGuard);
         GaurdProfile.ToggleSelected();
         GaurdProfile = null;
@@ -130,85 +133,118 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.SpawnGuard:
                 break;
-			case GameState.Simulation:
-				break;
+            case GameState.Simulation:
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
     }
 
-	public void StartGame() {
-		simulationNumber = 0;
-		foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>()) {
-			GameObject.gameObject.SetActive(false);
-			Destroy(GameObject.gameObject);
-		}
-		ChangeState(GameState.SpawnIntruder);
-		ChangeState(GameState.Simulation);
-		TickManager.Instance.active = true;
-		// Change button sprite to "back"
-		GameObject button = GameObject.Find("GoButton");
-		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
-		button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
+    public void StartGame()
+    {
+        simulationNumber = 0;
+        foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>())
+        {
+            GameObject.gameObject.SetActive(false);
+            Destroy(GameObject.gameObject);
+        }
+        ChangeState(GameState.SpawnIntruder);
+        ChangeState(GameState.Simulation);
+        TickManager.Instance.active = true;
+        // Change button sprite to "back"
+        GameObject button = GameObject.Find("GoButton");
+        button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[1];
+        button.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 100);
 
-		// Set button onclick to gameover
-		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
-		
-		sh.StopPlanningMusic();
-		sh.PlaySimulationMusic();
-	}
+        // Set button onclick to gameover
+        button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
 
-	public void GameOver() {
-		TickManager.Instance.active = false;
-		// Change button sprite to "play"
-		GameObject button = GameObject.Find("GoButton");
-		button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
-		button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+        sh.StopPlanningMusic();
+        sh.PlaySimulationMusic();
+    }
 
-		// Set button onclick to startgame
-		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
-		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(StartGame);
-		
-		// Reset guards
-		UnitManager.Instance.ResetUnits();
+    public void GameOver()
+    {
+        TickManager.Instance.active = false;
+        // Change button sprite to "play"
+        GameObject button = GameObject.Find("GoButton");
+        button.GetComponent<UnityEngine.UI.Image>().sprite = buttonSprites[0];
+        button.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
 
-		// Set state back to spawn guards
-		GameState = GameState.EmptyState;
+        // Set button onclick to startgame
+        button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+        button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(StartGame);
 
-		// Stop simulation music
-		sh.StopSimulationMusic();
-		sh.PlayPlanningMusic();
-	}
+        // Reset guards
+        UnitManager.Instance.ResetUnits();
 
-	public void IntruderReachedGoal() {
-		Debug.Log("Intruder reached goal! Game over!");
-		sh.PlayLoss();
-		GameOver();
-	}
+        // Set state back to spawn guards
+        GameState = GameState.EmptyState;
 
-	public void GuardsAlerted() {
-		Debug.Log("Guards alerted!");
-		NextSimulation();
-	}
+        // Stop simulation music
+        sh.StopSimulationMusic();
+        sh.PlayPlanningMusic();
+    }
 
-	public void NextSimulation() {
-		simulationNumber++;
-		if (simulationNumber >= level.intruderPaths.Count) {
-			Victory();
-		} else {
-			TickManager.Instance.active = false;
-			UnitManager.Instance.ResetUnits();
-			ChangeState(GameState.SpawnIntruder);
-			TickManager.Instance.active = true;
-		}
-	}
+    public void IntruderReachedGoal()
+    {
+        Debug.Log("Intruder reached goal! Game over!");
+        sh.PlayLoss();
+        GameOver();
+    }
 
-	private void Victory() {
-		Debug.Log("Victory!");
-		sh.PlayVictory();
-		GameOver();
-	}
+    public void DeleteGuard()
+    {
+        if (SelectedTile != null && SelectedTile?.OccupyingUnit != null && SelectedTile?.OccupyingUnit is BaseGuard && !(SelectedTile?.OccupyingUnit is GoldShroomController))
+        {
+            TickManager.Instance.DeleteGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            UnitManager.Instance.removeGuard((BaseGuard)SelectedTile.OccupyingUnit);
+            ((BaseGuard)SelectedTile.OccupyingUnit).EraseVisionCone();
+            Destroy(SelectedTile.OccupyingUnit.gameObject);
+            SelectedTile.OccupyingUnit = null;
+            SelectedTile.ToggleSelected();
+            SelectedTile = null;
+            ChangeState(GameState.EmptyState);
+        }
+    }
+
+    public void GuardsAlerted()
+    {
+        Debug.Log("Guards alerted!");
+        StartCoroutine(TriggerIntruderDeath());
+    }
+
+    public void NextSimulation()
+    {
+        simulationNumber++;
+        if (simulationNumber >= level.intruderPaths.Count)
+        {
+            Victory();
+        }
+        else
+        {
+            TickManager.Instance.active = false;
+            UnitManager.Instance.ResetUnits();
+            ChangeState(GameState.SpawnIntruder);
+            TickManager.Instance.active = true;
+        }
+    }
+
+    private void Victory()
+    {
+        Debug.Log("Victory!");
+        sh.PlayVictory();
+        GameOver();
+    }
+
+    IEnumerator TriggerIntruderDeath()
+    {
+        TickManager.Instance.intruder.TriggerCaughtAnim();
+        TickManager.Instance.active = false;
+        yield return new WaitForSeconds(2f); //wait for 2s to finish animation, then call game over
+        NextSimulation();
+    }
 }
 
 public enum GameState
@@ -220,5 +256,12 @@ public enum GameState
     SelectSquare = 4,
     EmptyState = 5,
     SpawnGuard = 6,
-	Simulation = 7
+    Simulation = 7
+}
+
+public enum EndState
+{
+    Victory = 0,
+    NextSimulation = 1,
+    Loss = 2
 }
