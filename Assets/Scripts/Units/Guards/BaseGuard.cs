@@ -13,6 +13,7 @@ public abstract class BaseGuard : BaseUnit, Resetable
 	public bool sawIntruder = false;
 
     private bool isActive = false;
+    public int Cost = 2;
 
     Animator animController;
     // Start is called before the first frame update

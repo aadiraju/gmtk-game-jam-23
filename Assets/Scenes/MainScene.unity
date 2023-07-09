@@ -4482,6 +4482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guardCount: 5
+  guardsCost: 0
+  guardsMaxCost: 10
 --- !u!4 &250588482
 Transform:
   m_ObjectHideFlags: 0
