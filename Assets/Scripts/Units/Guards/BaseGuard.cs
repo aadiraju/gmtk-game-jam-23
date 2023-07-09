@@ -33,6 +33,9 @@ public abstract class BaseGuard : BaseUnit
     public override void TickUp() {
         EraseVisionCone();
         DrawVisionCone();
+		foreach (var hit in currentHits) {
+			Debug.Log(hit);
+		}
     }
     public override void Rotate(Vector2 direction) {
         //TODO: Make sure it's one of the 4 cardinals
@@ -56,28 +59,28 @@ public abstract class BaseGuard : BaseUnit
     }
 
     protected RaycastHit2D[] RaycastAndHighlight(Vector2 offset, bool Circle = false) {
-       RaycastHit2D[] hits = {};
-       if(Circle) {
-        hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
-       } else {
-        hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
-        hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
-       }
-         foreach (var hit in hits) {
-            if (hit.collider != null) {
-                Tile tile = hit.collider.GetComponent<Tile>();
-				if (tile.isWall) {
-					break;
-				}
-                if(tile.OccupyingUnit != this) {
-                    tile?.Highlight();
-                }
-                if(tile.OccupyingUnit is BaseIntruder && alert == false){
-                    Debug.Log("Guard has discovered intruder");
-                    alert = true;
-                }
-            }
-        }
-        return hits;
+		RaycastHit2D[] hits = {};
+		if(Circle) {
+			hits = Physics2D.CircleCastAll(transform.position + Vector3.down * 0.2f, 1, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+		} else {
+			hits = Physics2D.RaycastAll(transform.position + Vector3.down * 0.2f, lookDirection + offset, VisionDistance, LayerMask.GetMask("Grid"));
+			hits = hits.Skip(0).Take(VisionDistance).ToArray(); //only limit to vision distance in all directions
+		}
+		foreach (var hit in hits) {
+			// if (hit.collider != null) {
+			// 	Tile tile = hit.collider.GetComponent<Tile>();
+			// 	if (tile.isWall) {
+			// 		break;
+			// 	}
+			// 	if(tile.OccupyingUnit != this) {
+			// 		tile?.Highlight();
+			// 	}
+			// 	if(tile.OccupyingUnit is BaseIntruder && alert == false){
+			// 		Debug.Log("Guard has discovered intruder");
+			// 		alert = true;
+			// 	}
+			// }
+		}
+		return hits;
     }
 }

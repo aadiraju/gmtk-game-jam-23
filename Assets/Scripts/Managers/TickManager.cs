@@ -25,13 +25,15 @@ public class TickManager : MonoBehaviour {
 	}
 
 	private void TickUnits() {
+		foreach (var intruder in tickableIntruders) {
+			intruder.TickUp();
+		}
+
 		foreach (var guard in tickableGuards) {
 			guard.TickUp();
 		}
 
-		foreach (var intruder in tickableIntruders) {
-			intruder.TickUp();
-		}
+		
 	}
 
 	public void addGuard(BaseGuard guard) {
