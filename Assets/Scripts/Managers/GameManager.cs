@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 	public Sprite[] buttonSprites;
     public Vector2 GoldenShroomLocation = new(0,0);
     public SoundHandler sh;
+	public int simulationNumber = 0;
 
     void Awake()
     {
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour
     }
 
 	public void StartGame() {
+		simulationNumber = 0;
 		foreach (Intruder1 GameObject in FindObjectsOfType<Intruder1>()) {
 			GameObject.gameObject.SetActive(false);
 			Destroy(GameObject.gameObject);
@@ -153,6 +155,8 @@ public class GameManager : MonoBehaviour
 		button.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
 		button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(GameOver);
 		
+		sh.StopPlanningMusic();
+		sh.PlaySimulationMusic();
 	}
 
 	public void GameOver() {
@@ -171,10 +175,38 @@ public class GameManager : MonoBehaviour
 
 		// Set state back to spawn guards
 		GameState = GameState.EmptyState;
+
+		// Stop simulation music
+		sh.StopSimulationMusic();
+		sh.PlayPlanningMusic();
+	}
+
+	public void IntruderReachedGoal() {
+		Debug.Log("Intruder reached goal! Game over!");
+		sh.PlayLoss();
+		GameOver();
 	}
 
 	public void GuardsAlerted() {
-		Debug.Log("Guards alerted! Game over!");
+		Debug.Log("Guards alerted!");
+		NextSimulation();
+	}
+
+	public void NextSimulation() {
+		simulationNumber++;
+		if (simulationNumber >= level.intruderPaths.Count) {
+			Victory();
+		} else {
+			TickManager.Instance.active = false;
+			UnitManager.Instance.ResetUnits();
+			ChangeState(GameState.SpawnIntruder);
+			TickManager.Instance.active = true;
+		}
+	}
+
+	private void Victory() {
+		Debug.Log("Victory!");
+		sh.PlayVictory();
 		GameOver();
 	}
 }
